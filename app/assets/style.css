@@ -28,14 +28,16 @@
   }
 
   #navigation-items {
+    user-select: none;
+    -moz-user-select: none;
     position: relative;
     --corner-size: 8px;
     --corner-thickness: 2px;
-    background-image: linear-gradient(#010101, #010101),
+    background-image:
       linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
       linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
       linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
-      linear-gradient(#010101, #010101);
+      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101);
     background-position:
       top left,
       top left,

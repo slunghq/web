@@ -14,4 +14,9 @@ export default defineNuxtConfig({
     "motion-v/nuxt",
   ],
   vite: { plugins: [tailwindcss()] },
+  app: {
+    head: {
+      titleTemplate: "%s | The Sling Company",
+    },
+  },
 });
