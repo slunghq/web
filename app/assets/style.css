@@ -107,4 +107,36 @@
   .link:hover::before {
     width: 100%;
   }
+
+  .link-vertical {
+    position: relative;
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .link-vertical::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #010101;
+    transition: height 0.25s ease;
+    z-index: 0;
+  }
+
+  .link-vertical:hover::before {
+    height: 100%;
+  }
+
+  .link-vertical span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.25s ease;
+  }
+
+  .link-vertical:hover span {
+    color: #ffffff;
+  }
 }

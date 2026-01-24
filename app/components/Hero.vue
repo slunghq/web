@@ -29,7 +29,7 @@
                                 class="w-full max-w-[800px] gap-12 flex flex-col sm:flex-row"
                             >
                                 <nuxt-link
-                                    class="h-[36px] px-8 text-center bg-[#ddd] relative flex justify-center items-center"
+                                    class="h-[36px] px-8 text-center bg-[#ddd] relative flex justify-center items-center link-vertical"
                                     id="navigation-items"
                                     to="https://cal.com/ewanretor/slung-live"
                                 >

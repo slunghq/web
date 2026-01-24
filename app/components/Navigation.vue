@@ -166,8 +166,8 @@ const items = [
         external: false,
     },
     {
-        name: "Pricing",
-        url: "/pricing",
+        name: "Roadmap",
+        url: "/roadmap",
         cta: false,
         external: false,
     },
