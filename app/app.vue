@@ -1,14 +1,14 @@
 <template>
-  <!-- <div id="custom-cursor">
+    <!-- <div id="custom-cursor">
     <div class="cursor-fill"></div>
   </div> -->
-  <div class="flex flex-col justify-evenly min-h-[calc(100vh-32px)]">
-    <!-- <Navigation /> -->
-    <main class="grow">
-      <NuxtPage />
-    </main>
-    <!-- <Footer /> -->
-  </div>
+    <div class="flex flex-col justify-evenly min-h-[calc(100vh-32px)]">
+        <Navigation />
+        <main class="grow">
+            <NuxtPage />
+        </main>
+        <!-- <Footer /> -->
+    </div>
 </template>
 
 <!-- <script setup lang="ts">
