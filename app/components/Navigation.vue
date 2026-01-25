@@ -57,15 +57,18 @@
                                           }
                                         : { delay: i.id * 0.05 }
                                 "
-                                class="h-9 w-[calc(100%-16px)] text-center bg-[#fafafa] gap-4 relative flex justify-center items-center text-[#010101]"
+                                class="h-9 w-[calc(100%-16px)] text-center bg-[#fafafa] hover:bg-[#f4f4f4] gap-4 relative flex justify-center items-center text-[#010101]"
                                 :class="{
-                                    'bg-[#ddd]! mt-6!': i.cta,
+                                    'bg-[#ddd]! mt-6! hover:bg-[#ddd]!': i.cta,
                                 }"
                                 id="navigation-items"
                             >
                                 <nuxt-link
                                     class="text-start h-full w-full flex items-center justify-between"
                                     :to="i.url"
+                                    :class="{
+                                        'link-vertical': i.cta,
+                                    }"
                                     ><span
                                         class="uppercase px-6 font-semibold"
                                         >{{ i.name }}</span
@@ -84,7 +87,7 @@
                 </Transition>
                 <button
                     @click="toggleMenuState"
-                    class="h-[36px] w-[114px] text-center bg-[#ddd] gap-4 relative flex justify-center items-center"
+                    class="h-[36px] w-[114px] text-center bg-[#ddd] hover:bg-[#ccc] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
                 >
                     <svg
