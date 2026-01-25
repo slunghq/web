@@ -1,9 +1,9 @@
 <template>
     <div class="w-full py-4 flex justify-center items-center">
         <div
-            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-[999]"
+            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-999"
         >
-            <div class="w-[114px] flex justify-start items-center z-200">
+            <div class="w-28.5 flex justify-start items-center z-200">
                 <nuxt-link to="/">
                     <img src="assets/img/logo.png" alt="Logo" class="w-7" />
                 </nuxt-link>
@@ -89,6 +89,7 @@
                     @click="toggleMenuState"
                     class="h-[36px] w-[114px] text-center bg-[#ddd] hover:bg-[#ccc] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
+                    :class="{ 'bg-[#ccc]!': menuOpen }"
                 >
                     <svg
                         class="fill-[#010101] shrink-0 mr-2"
