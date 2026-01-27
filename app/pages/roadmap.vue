@@ -8,9 +8,9 @@
                 >
                     <h1 class="text-2xl">Roadmap</h1>
                     <span class="inline-block w-full">
-                        Here's what we'll be up to in a few. Help with reaching
-                        our goals sooner will be greatly appreciated! If you
-                        want to contribute, kindly check our
+                        Here's what we've been up to. Help with reaching our
+                        goals sooner will be greatly appreciated! If you want to
+                        contribute, kindly check our
                         <nuxt-link
                             class="link inline-block"
                             to="https://github.com/slunghq/slung/issues"

@@ -18,8 +18,10 @@
                         <p
                             class="flex flex-col text-left text-medium-fluid col-[1/4] xl:col-[1/4.5]"
                         >
-                            We build systems that process real-time mission
-                            critical data for front-runners. Designed for speed,
+                            We build systems that process mission critical data
+                            for front-runners. Our core runtime is real-time
+                            durable edge compute over temporal data streams with
+                            built-in historical context. Designed for speed,
                             scale, and decisive action.
                         </p>
                         <div
