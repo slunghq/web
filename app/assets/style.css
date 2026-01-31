@@ -24,20 +24,18 @@
   }
 
   body {
-    @apply bg-[#f1f1f1] font-[Fustat] text-[#010101];
+    @apply bg-[#fffdf6] font-[Fustat] text-[#010101];
   }
 
   #navigation-items {
-    user-select: none;
-    -moz-user-select: none;
     position: relative;
     --corner-size: 8px;
     --corner-thickness: 2px;
     background-image:
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101);
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
     background-position:
       top left,
       top left,
@@ -60,14 +58,12 @@
   }
 
   #navigation-items-bottom {
-    user-select: none;
-    -moz-user-select: none;
     position: relative;
     --corner-size: 8px;
     --corner-thickness: 2px;
     background-image:
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101),
-      linear-gradient(#010101, #010101), linear-gradient(#010101, #010101);
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
     background-position:
       bottom left,
       bottom left,
@@ -81,20 +77,46 @@
     background-repeat: no-repeat;
   }
 
+  #navigation-top-left-bottom-right {
+    position: relative;
+    --corner-size: 8px;
+    --corner-thickness: 2px;
+    background-image:
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
+      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
+    background-position:
+      top left,
+      top left,
+      bottom right,
+      bottom right;
+    background-size:
+      var(--corner-thickness) var(--corner-size),
+      var(--corner-size) var(--corner-thickness),
+      var(--corner-thickness) var(--corner-size),
+      var(--corner-size) var(--corner-thickness);
+    background-repeat: no-repeat;
+  }
+
+  .no-select {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+  }
+
   ::-moz-selection,
   ::selection {
-    @apply text-[#ffffff] bg-[#010101];
+    @apply text-[#ffffff] bg-[#4e0d0b];
   }
 
   .negative {
-    @apply text-[#ffffff] bg-[#010101];
+    @apply text-[#ffffff] bg-[#4e0d0b];
   }
 
   .negative::-moz-selection,
   .negative::selection {
-    @apply text-[#010101] bg-[#ffffff];
+    @apply text-[#4e0d0b] bg-[#ffffff];
     * {
-      @apply text-[#010101] bg-[#ffffff];
+      @apply text-[#4e0d0b] bg-[#ffffff];
     }
   }
 
@@ -112,7 +134,7 @@
     height: 100%;
     bottom: 0;
     left: 0;
-    background-color: #010101;
+    background-color: #4e0d0b;
     transition: width 0.25s ease;
     z-index: 0;
   }
@@ -124,7 +146,7 @@
   .link span {
     position: relative;
     z-index: 1;
-    background: linear-gradient(to right, #ffffff 50%, #010101 50%);
+    background: linear-gradient(to right, #ffffff 50%, #4e0d0b 50%);
     background-size: 200% 100%;
     background-position: 100% 0;
     -webkit-background-clip: text;
@@ -149,7 +171,7 @@
     height: 0;
     bottom: 0;
     left: 0;
-    background-color: #010101;
+    background-color: #4e0d0b;
     transition: height 0.25s ease;
     z-index: 0;
   }
