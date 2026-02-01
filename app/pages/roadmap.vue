@@ -36,27 +36,27 @@
                     <span class="inline-block w-full">
                         {{ i.description }}
                     </span>
-                    <div class="w-full flex">
+                    <div class="w-full flex font-[Intel]">
                         <div
-                            class="bg-[#eae7e3] text-[#010101] px-2 border lowercase text-sm"
+                            class="bg-[#eae7e3] text-[#010101] px-2 pb-1 border lowercase text-sm"
                             v-if="i.status == 'planned'"
                         >
                             {{ i.status }}
                         </div>
                         <div
-                            class="bg-[#94ec94] text-[#010101] px-2 border lowercase text-sm"
+                            class="bg-[#94ec94] text-[#010101] px-2 pb-1 border lowercase text-sm"
                             v-else-if="i.status == 'done'"
                         >
                             {{ i.status }}
                         </div>
                         <div
-                            class="bg-[#ecdc94] text-[#010101] px-2 border lowercase text-sm"
+                            class="bg-[#ecdc94] text-[#010101] px-2 pb-1 border lowercase text-sm"
                             v-else-if="i.status == 'in-progress'"
                         >
                             {{ i.status }}
                         </div>
                         <div
-                            class="bg-[#ea8888] text-[#010101] px-2 border lowercase text-sm"
+                            class="bg-[#ea8888] text-[#010101] px-2 pb-1 border lowercase text-sm"
                             v-else
                         >
                             {{ i.status }}
