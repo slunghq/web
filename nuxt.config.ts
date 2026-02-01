@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   vite: { plugins: [tailwindcss()] },
   app: {
     head: {
-      titleTemplate: "%s | The Sling Company",
+      titleTemplate: "%s | Slung",
     },
   },
 });
