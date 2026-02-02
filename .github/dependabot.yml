@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    rebase-strategy: "auto"
+    commit-message:
+      prefix: "dependabot: "
