@@ -81,32 +81,32 @@ useSeoMeta({
 
 const items = [
     {
-        title: "Stream ingestion",
+        title: "Stream pipeline",
         description:
             "System in-charge of managing and processing websocket streams.",
         url: "https://github.com/slunghq/slung/issues/1",
-        status: "planned",
+        status: "in-progress",
     },
     {
         title: "TSM tree",
         description:
             "Time-structured merge tree. A timeseries optimised tree with a fast row-based memtable and a columnar disk format.",
         url: "https://github.com/slunghq/slung/issues/2",
-        status: "in-progress",
+        status: "done",
     },
     {
         title: "Parallel data query engine",
         description:
             "Processes the temporal data from the stream and feeds it to the main compute execution. Sits between the ingestion pipeline, TSM and Wasm runtime.",
         url: "https://github.com/slunghq/slung/issues/3",
-        status: "planned",
+        status: "in-progress",
     },
     {
         title: "Wasm execution",
         description:
             "Runs multi-tenanted durable functions that consume processed stream data and accesses TSM tree.",
         url: "",
-        status: "planned",
+        status: "in-progress",
     },
     {
         title: "Write-ahead log (WAL)",
