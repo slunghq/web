@@ -10,19 +10,21 @@
                     <h1
                         class="flex flex-col text-reveal-title-fluid tracking-headline uppercase"
                     >
-                        ENGINE FOR INTELLIGENCE THAT MOVES
+                        DURABLE WORKFLOWS OVER REAL-TIME DATA STREAMS
                     </h1>
                     <div
                         class="md:grid grid-cols-3 xl:grid-cols-4 gap-x-32 gap-y-12 flex flex-col"
                     >
                         <p
-                            class="flex flex-col text-left text-medium-fluid col-[1/4] xl:col-[1/4.5]"
+                            class="flex flex-col text-left text-medium-fluid col-[1/4] xl:col-[1/4.5] inline"
                         >
-                            We build systems that process mission critical data
-                            for front-runners. Our core runtime is real-time
-                            durable edge compute over temporal data streams with
-                            built-in historical context. Designed for speed,
-                            scale, and decisive action.
+                            Millions of events/sec. Near-zero cold starts.
+                            Stateful execution. Built-in time series data store.
+                            Edge-native. No vendor lock-in.
+                            <span class="font-semibold inline">
+                                Yes it's
+                                <span class="font-bold">ONE</span> runtime !!
+                            </span>
                         </p>
                         <div
                             class="col-[1/3] xl:col-[1/4] flex items-center gap-12"
