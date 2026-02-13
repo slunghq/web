@@ -13,7 +13,29 @@
                     </span>
                 </div>
             </div>
-            <div class="flex justify-center items-center min-h-100 w-full">
+            <div
+                v-if="posts.length > 0"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6"
+            >
+                <Motion
+                    as="div"
+                    :initial="{ opacity: 0, y: 20 }"
+                    :animate="{ opacity: 1, y: 0 }"
+                    :transition="{ staggerChildren: 0.1 }"
+                    class="contents"
+                >
+                    <BlogCard
+                        v-for="(post, index) in posts"
+                        :key="post.path || index"
+                        :post="post"
+                        :index="index"
+                    />
+                </Motion>
+            </div>
+            <div
+                v-else
+                class="flex justify-center items-center min-h-100 w-full"
+            >
                 // We've not written anything, yet :)
             </div>
         </div>
@@ -21,6 +43,8 @@
 </template>
 
 <script setup>
+const posts = await queryCollection("blog").order("date", "DESC").all();
+
 useSeoMeta({
     title: "Blogs & Insights",
     ogTitle: "Blog & Insights",

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./css/blog.css";
 
 @font-face {
   font-family: "Fustat";
