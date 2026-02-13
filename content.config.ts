@@ -21,7 +21,7 @@ export default defineContentConfig({
         title: z.string(),
         description: z.string().optional(),
         hero: z.string().optional(),
-        tags: z.array(z.string()).optional(),
+        icon: z.string().optional(),
       }),
     }),
   },
