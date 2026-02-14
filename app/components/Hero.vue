@@ -30,7 +30,7 @@
                             class="col-[1/3] xl:col-[1/4] flex items-center gap-12"
                         >
                             <div
-                                class="w-full max-w-[800px] gap-6 sm:gap-12 flex flex-col sm:flex-row"
+                                class="w-full max-w-[800px] gap-6 lg:gap-12 flex flex-col lg:flex-row"
                             >
                                 <nuxt-link
                                     class="h-[36px] no-select px-8 text-center bg-[#dcb] relative flex justify-center items-center link-vertical"
