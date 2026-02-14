@@ -14,6 +14,16 @@ export default defineNuxtConfig({
     "motion-v/nuxt",
   ],
   vite: { plugins: [tailwindcss()] },
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: "gruvbox-light-medium",
+          langs: ["rust", "zig", "sql"],
+        },
+      },
+    },
+  },
   app: {
     head: {
       titleTemplate: "%s | Slung",

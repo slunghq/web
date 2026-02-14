@@ -110,7 +110,7 @@ useSeoMeta({
                             <div class="font-semibold inline">
                                 Share:
                                 <nuxt-link
-                                    :to="`https://x.com/intent/post?url=${encodeURIComponent($route.fullPath)}`"
+                                    :to="`https://x.com/intent/post?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
                                     class="inline-flex items-center link px-1 text-sm h-full"
                                 >
                                     <span
@@ -121,7 +121,7 @@ useSeoMeta({
                                     >
                                 </nuxt-link>
                                 <nuxt-link
-                                    :to="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent($route.fullPath)}`"
+                                    :to="`https://www.linkedin.com/sharing/share-offsite/?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
                                     class="inline-flex items-center link px-1 text-sm h-full"
                                 >
                                     <span>LinkedIn</span>
