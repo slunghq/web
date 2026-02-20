@@ -7,7 +7,7 @@
         <main class="grow">
             <NuxtPage />
         </main>
-        <!-- <Footer /> -->
+        <Footer />
     </div>
 </template>
 

@@ -106,7 +106,14 @@ const items = [
         description:
             "Runs multi-tenanted durable functions that consume processed stream data and accesses TSM tree.",
         url: "",
-        status: "in-progress",
+        status: "done",
+    },
+    {
+        title: "Gateway",
+        description:
+            "More streaming primitives for handling incoming data streams. Right now, we have plans for WebTransport, NATS and Kafka.",
+        url: "",
+        status: "planned",
     },
     {
         title: "Write-ahead log (WAL)",
@@ -120,7 +127,7 @@ const items = [
         description:
             "Fast, effecient, secure transport protocol over UDP. Replaces websocket for streams.",
         url: "",
-        status: "deferred",
+        status: "planned",
     },
 ];
 </script>

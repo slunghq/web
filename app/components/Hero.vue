@@ -22,8 +22,8 @@
                             Stateful execution. Built-in time series data store.
                             Edge-native. No vendor lock-in.
                             <span class="font-semibold inline">
-                                Yes it's
-                                <span class="font-bold">ONE</span> runtime !!
+                                Time to put your analytic data to
+                                <span class="font-bold">WORK</span>!
                             </span>
                         </p>
                         <div
