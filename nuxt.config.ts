@@ -12,6 +12,8 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "motion-v/nuxt",
+    "@solar-icons/nuxt",
+    "@vesp/nuxt-fontawesome",
   ],
   vite: { plugins: [tailwindcss()] },
   content: {
@@ -19,9 +21,15 @@ export default defineNuxtConfig({
       markdown: {
         highlight: {
           theme: "gruvbox-light-medium",
-          langs: ["rust", "zig", "sql"],
+          langs: ["rust", "zig", "sql", "toml"],
         },
       },
+    },
+  },
+  fontawesome: {
+    icons: {
+      regular: ["clone"],
+      solid: ["pen", "check"],
     },
   },
   app: {

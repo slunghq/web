@@ -15,7 +15,9 @@
     "@nuxt/fonts": "0.12.1",
     "@nuxt/icon": "2.1.1",
     "@nuxt/image": "2.0.0",
+    "@solar-icons/nuxt": "1.2.0",
     "@tailwindcss/vite": "^4.1.18",
+    "@vesp/nuxt-fontawesome": "2.0.0",
     "motion-v": "^1.10.2",
     "nuxt": "^4.3.1",
     "tailwind-merge": "^3.4.0",
@@ -34,5 +36,10 @@
       "esbuild",
       "sharp"
     ]
+  },
+  "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0"
   }
 }

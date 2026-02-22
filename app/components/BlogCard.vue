@@ -8,7 +8,7 @@
                 class="relative h-auto overflow-hidden bg-[#faf8f4] hover:bg-[#fcf4f0] group"
             >
                 <img
-                    :src="getHeroImage(post.hero)"
+                    :src="`/blog/${post.hero}`"
                     :alt="post.title"
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[106.25%] hover:transform hover:scale-[1.0625]"
                 />
@@ -67,19 +67,6 @@ const props = defineProps({
         default: 0,
     },
 });
-
-const blogImages = import.meta.glob("~/assets/img/blog/*", {
-    eager: true,
-    import: "default",
-}) as Record<string, string>;
-
-const getHeroImage = (hero: string | undefined): string => {
-    if (!hero) return "/blog-placeholder.png";
-    const matchingKey = Object.keys(blogImages).find((k) =>
-        k.endsWith(`/assets/img/blog/${hero}`),
-    );
-    return matchingKey ? blogImages[matchingKey] : "/placeholder.png";
-};
 
 const formatDate = (date: string) => {
     if (!date) return "";
