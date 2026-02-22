@@ -1,14 +1,14 @@
 <template>
     <div class="w-full py-4 flex justify-center items-center">
         <div
-            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-999"
+            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-[999]"
         >
-            <div class="w-28.5 flex justify-start items-center z-200">
+            <div class="w-28.5 flex justify-start items-center z-[200]">
                 <nuxt-link to="/">
                     <img src="assets/img/logo.png" alt="Logo" class="w-7" />
                 </nuxt-link>
             </div>
-            <div class="hidden md:flex gap-2 items-end justify-center z-200">
+            <div class="hidden md:flex gap-2 items-end justify-center z-[200]">
                 <nuxt-link class="text-start link" to="/docs">
                     <span class="px-2 font-semibold" data-text="// Docs"
                         >// Docs</span
@@ -21,7 +21,7 @@
                 </nuxt-link>
             </div>
             <div
-                class="z-100 flex flex-wrap gap-2 items-center"
+                class="z-[100] flex flex-wrap gap-2 items-center"
                 ref="menuContent"
             >
                 <Transition name="menu" :duration="250">

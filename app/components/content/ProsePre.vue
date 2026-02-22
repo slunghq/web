@@ -7,7 +7,10 @@
             {{ $props.filename }}
         </div>
         <pre
-            :class="$props.class"
+            :class="[
+                $props.class,
+                { 'no-line-numbers pb-2!': $props.language === 'bash' },
+            ]"
             class="p-5 pl-2! pt-2 border border-[#4e0d0b]/40 overflow-x-auto"
         ><slot /></pre>
     </div>
@@ -74,6 +77,20 @@ pre code .line {
 
 .line:hover {
     @apply bg-[#fcf4f0];
+}
+
+.no-line-numbers .line::before {
+    content: "~";
+    border-right: 0;
+    width: 2em;
+}
+
+.no-line-numbers .line:hover {
+    @apply bg-[#fffdf6];
+}
+
+.no-line-numbers .line {
+    padding-left: 2em;
 }
 
 pre code .line *::-moz-selection,

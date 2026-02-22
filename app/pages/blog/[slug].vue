@@ -13,19 +13,6 @@ const { data: post } = await useAsyncData(`blog-${slug}`, () => {
     return queryCollection("blog").path(`/blog/${slug}`).first();
 });
 
-const blogImages = import.meta.glob("~/assets/img/blog/*", {
-    eager: true,
-    import: "default",
-}) as Record<string, string>;
-
-const getHeroImage = (hero: string | undefined): string => {
-    if (!hero) return "/blog-placeholder.png";
-    const matchingKey = Object.keys(blogImages).find((k) =>
-        k.endsWith(`/assets/img/blog/${hero}`),
-    );
-    return matchingKey ? blogImages[matchingKey] : "/placeholder.png";
-};
-
 useSeoMeta({
     title: `${post.value.title} | Blogs & Insights`,
     ogTitle: `${post.value.title} | Blog & Insights`,
@@ -78,7 +65,7 @@ useSeoMeta({
                                 class="mb-8 rounded-xl overflow-visible"
                             >
                                 <img
-                                    :src="getHeroImage(post.hero)"
+                                    :src="post.hero"
                                     :alt="post.title"
                                     class="h-auto w-full object-cover"
                                 />
