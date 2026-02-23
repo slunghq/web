@@ -118,7 +118,7 @@ main().catch((err) => {
 Set up your Node project and run the publisher.
 
 ```bash
-npm install ./slung/sdks/clients/typescript
+npm install @slunghq/client
 npx tsx index.ts
 ```
 
