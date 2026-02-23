@@ -21,7 +21,17 @@ export default defineNuxtConfig({
       markdown: {
         highlight: {
           theme: "gruvbox-light-medium",
-          langs: ["rust", "zig", "sql", "toml"],
+          langs: [
+            "rust",
+            "zig",
+            "sql",
+            "toml",
+            "bash",
+            "shell",
+            "zsh",
+            "fish",
+            "sh",
+          ],
         },
       },
     },
