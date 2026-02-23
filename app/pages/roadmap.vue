@@ -111,7 +111,13 @@ const items = [
     {
         title: "Gateway",
         description:
-            "More streaming primitives for handling incoming data streams. Right now, we have plans for WebTransport, NATS and Kafka.",
+            "Authenticated gateway and more streaming primitives for handling incoming data streams. Right now, we have plans for NATS and Kafka.",
+        url: "",
+        status: "planned",
+    },
+    {
+        title: "Object storage sync",
+        description: "Sync local data to the cloud with S3 or R2.",
         url: "",
         status: "planned",
     },
