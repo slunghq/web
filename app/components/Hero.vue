@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen relative flex flex-col gap-8">
+    <div class="min-h-[calc(100vh-113px)] relative flex flex-col gap-8">
         <header class="flex-1 relative h-full overflow-hidden">
             <div
                 class="flex flex-col items-center justify-center md:grid grid-cols-6 gap-32 relative px-[1.25rem] lg:px-[1.25rem] md:pt-[calc(12.5%)] h-full max-w-[1920px] mx-auto"
@@ -10,7 +10,7 @@
                     <h1
                         class="flex flex-col text-reveal-title-fluid tracking-headline uppercase"
                     >
-                        DURABLE WORKFLOWS OVER REAL-TIME DATA STREAMS
+                        COMPUTE ENGINE FOR REAL-TIME DECISIONS
                     </h1>
                     <div
                         class="md:grid grid-cols-3 xl:grid-cols-4 gap-x-32 gap-y-12 flex flex-col"
@@ -18,12 +18,10 @@
                         <p
                             class="flex flex-col text-left text-medium-fluid col-[1/4] xl:col-[1/4.5] inline"
                         >
-                            Millions of events/sec. Near-zero cold starts.
-                            Stateful execution. Built-in time series data store.
-                            Edge-native. No vendor lock-in.
+                            Orchestrate complex mission critical systems for
+                            real-time emergent data. Designed for
                             <span class="font-semibold inline">
-                                Time to put your analytic data to
-                                <span class="font-bold">WORK</span>!
+                                decisive autonomous action!
                             </span>
                         </p>
                         <div
@@ -45,11 +43,11 @@
                                 <nuxt-link
                                     class="h-[36px] no-select px-8 text-center bg-[#fcf4f0] relative flex justify-center items-center link-vertical"
                                     id="navigation-items"
-                                    to="https://github.com/slunghq/slung"
+                                    to="https://console.slung.tech"
                                     target="_blank"
                                 >
                                     <span class="uppercase font-bold"
-                                        >star on github</span
+                                        >try it out yourself</span
                                     >
                                 </nuxt-link>
                             </div>
@@ -66,7 +64,7 @@
 
 <script setup></script>
 
-<style scoped>
+<style>
 @import "tailwindcss";
 
 .hero {

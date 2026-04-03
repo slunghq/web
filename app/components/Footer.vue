@@ -1,6 +1,6 @@
 <template>
     <div
-        class="w-full px-4 md:px-16 py-9 md:py-11 z-999 footer bottom-0 bg-[#fffdf6]"
+        class="w-full px-4 md:px-16 py-9 md:py-11 z-999 footer bottom-0 bg-[#fffdf6] border-[#4e0d0b] border-t border-dashed"
     >
         <ul class="uppercase font-semibold">
             <li class="link w-fit">
