@@ -103,11 +103,6 @@ export default defineNuxtConfig({
           rel: "manifest",
           href: "/site.webmanifest",
         },
-        {
-          rel: "alternate",
-          type: "application/rss+xml",
-          href: "/feed.xml",
-        },
       ],
       script: [
         {
@@ -158,14 +153,6 @@ export default defineNuxtConfig({
             name: "Slung",
             description:
               "Compute engine for real-time decisions based on changing facts.",
-            potentialAction: {
-              "@type": "SearchAction",
-              target: {
-                "@type": "EntryPoint",
-                urlTemplate: "https://slung.tech/search?q={search_term_string}",
-              },
-              query_input: "required name=search_term_string",
-            },
           }),
         },
       ],
