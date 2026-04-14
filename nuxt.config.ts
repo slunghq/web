@@ -57,7 +57,7 @@ export default defineNuxtConfig({
         },
         {
           name: "theme-color",
-          content: "#faf8f4",
+          content: "#4e0d0b",
         },
         {
           name: "robots",
@@ -90,10 +90,6 @@ export default defineNuxtConfig({
         },
       ],
       link: [
-        {
-          rel: "canonical",
-          href: "https://slung.tech",
-        },
         {
           rel: "icon",
           type: "image/x-icon",
@@ -150,11 +146,6 @@ export default defineNuxtConfig({
               "@type": "Offer",
               price: "0",
               priceCurrency: "USD",
-            },
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: "5",
-              ratingCount: "1",
             },
           }),
         },
