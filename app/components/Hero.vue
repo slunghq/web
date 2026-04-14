@@ -1,37 +1,31 @@
 <template>
-    <div class="min-h-[calc(100vh-113px)] relative flex flex-col gap-8">
-        <header class="flex-1 relative h-full overflow-hidden">
+    <div class="min-h-[calc(40vh-113px)] relative flex flex-col gap-8 w-full">
+        <header class="flex-1 relative h-full overflow-hidden w-full">
             <div
-                class="flex flex-col items-center justify-center md:grid grid-cols-6 gap-32 relative px-[1.25rem] lg:px-[1.25rem] md:pt-[calc(12.5%)] h-full max-w-[1920px] mx-auto"
+                class="flex flex-col items-center justify-center relative px-0 h-full w-full"
             >
                 <div
-                    class="h-full col-[2/6] xl:col-[2/5] flex flex-col gap-8 justify-center z-10 pt-[6.25rem]"
+                    class="flex flex-col gap-4 justify-center z-10 pt-[6.25rem] w-full"
                 >
                     <h1
                         class="flex flex-col text-reveal-title-fluid tracking-headline uppercase"
                     >
                         COMPUTE ENGINE FOR REAL-TIME DECISIONS
                     </h1>
-                    <div
-                        class="md:grid grid-cols-3 xl:grid-cols-4 gap-x-32 gap-y-12 flex flex-col"
-                    >
-                        <p
-                            class="flex flex-col text-left text-medium-fluid col-[1/4] xl:col-[1/4.5] inline"
-                        >
+                    <div class="flex flex-col gap-8 w-full">
+                        <p class="flex flex-col text-left text-base">
                             Orchestrate complex mission critical systems for
                             real-time emergent data. Designed for
                             <span class="font-semibold inline">
                                 decisive autonomous action!
                             </span>
                         </p>
-                        <div
-                            class="col-[1/3] xl:col-[1/4] flex items-center gap-12"
-                        >
+                        <div class="flex items-center gap-6 w-full">
                             <div
-                                class="w-full max-w-[800px] gap-6 lg:gap-12 flex flex-col lg:flex-row"
+                                class="w-full gap-6 lg:gap-12 flex flex-col lg:flex-row text-sm"
                             >
                                 <nuxt-link
-                                    class="h-[36px] no-select px-8 text-center bg-[#dcb] relative flex justify-center items-center link-vertical"
+                                    class="h-7 no-select px-8 text-center bg-[#dcb] relative flex justify-center items-center link-vertical"
                                     id="navigation-items"
                                     to="https://cal.com/ewanretor/slung-live"
                                     target="_blank"
@@ -41,7 +35,7 @@
                                     >
                                 </nuxt-link>
                                 <nuxt-link
-                                    class="h-[36px] no-select px-8 text-center bg-[#fcf4f0] relative flex justify-center items-center link-vertical"
+                                    class="h-7 no-select px-8 text-center bg-[#fcf4f0] relative flex justify-center items-center link-vertical"
                                     id="navigation-items"
                                     to="https://console.slung.tech"
                                     target="_blank"
@@ -54,9 +48,6 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="h-full col-[2/6] xl:col-[2/5] flex flex-col gap-8 justify-center z-10 pt-[6.25rem]"
-                ></div>
             </div>
         </header>
     </div>
@@ -75,13 +66,13 @@
 }
 .text-reveal-title-fluid {
     font-size: clamp(
-        2.25rem,
-        calc(2.25rem + (5 - 2.25) * ((85vw - 30rem) / (120 - 30))),
+        1.25rem,
+        calc(1.25rem + (1.5 - 1.25) * ((95vw - 30rem) / (120 - 30))),
         5rem
     );
     line-height: clamp(
         2.025rem,
-        calc(2.025rem + (4.5 - 2.025) * ((100vw - 30rem) / (120 - 30))),
+        calc(2.025rem + (3.5 - 2.025) * ((100vw - 30rem) / (120 - 30))),
         4.5rem
     );
 }

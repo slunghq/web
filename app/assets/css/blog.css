@@ -19,27 +19,27 @@
   }
 
   h1 {
-    @apply text-2xl md:text-4xl font-bold  mt-12 mb-8;
+    @apply text-2xl md:text-3xl font-bold mt-8 mb-6;
   }
 
   h2 {
-    @apply text-xl md:text-3xl font-bold  mt-12 mb-6;
+    @apply text-xl md:text-2xl font-bold mt-8 mb-5;
   }
 
   h3 {
-    @apply text-lg md:text-2xl font-bold  mt-10 mb-4;
+    @apply text-lg md:text-xl font-bold mt-6 mb-4;
   }
 
   h4 {
-    @apply text-base md:text-xl font-bold  mt-8 mb-4;
+    @apply text-base md:text-lg font-bold mt-5 mb-3;
   }
 
   h5 {
-    @apply text-sm md:text-lg font-bold  mt-6 mb-3;
+    @apply text-sm md:text-base font-bold mt-4 mb-2;
   }
 
   h6 {
-    @apply text-xs md:text-base font-bold  mt-6 mb-3;
+    @apply text-sm font-bold mt-4 mb-2;
   }
 
   a {
@@ -136,10 +136,10 @@
     @apply w-full border-collapse my-8 overflow-hidden;
     th,
     td {
-      @apply border border-[#4e0d0b]/20 p-3;
+      @apply border border-[#4e0d0b]/20 p-3 text-sm;
     }
     th {
-      @apply bg-[#fcf4f0]  font-bold;
+      @apply bg-[#fcf4f0] font-bold;
     }
     tr:nth-child(even) {
       @apply bg-[#faf8f4];
