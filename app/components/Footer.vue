@@ -36,7 +36,7 @@
             </ul>
             <div class="w-full flex justify-between items-center py-4">
                 <div class="flex items-center font-bold text-base">
-                    General Inference Co. © {{ new Date().getFullYear() }}.
+                    Slung © {{ new Date().getFullYear() }}.
                 </div>
                 <span class="h-[40px]"
                     ><img
