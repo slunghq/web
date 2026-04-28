@@ -11,9 +11,12 @@
   src: url("./fonts/IntelOneMono-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: "Lilex";
+  src: url("./fonts/Lilex[wght].ttf");
+}
+
 @theme static {
-  --font-sans: "Fustat", sans-serif;
-  --font-mono: "Intel", monospace;
   --background: hsl(210, 10%, 95%);
   --foreground: hsl(210, 10%, 10%);
 }
@@ -22,6 +25,8 @@
   :root {
     --background: 210, 10%, 95%;
     --foreground: 210, 10%, 10%;
+    --font-sans: "Fustat", sans-serif;
+    --font-mono: "Lilex", monospace;
   }
 
   body {

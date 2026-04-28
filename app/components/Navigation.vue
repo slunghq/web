@@ -1,7 +1,9 @@
 <template>
-    <div class="w-full py-4 flex justify-center items-center">
+    <div
+        class="w-full py-4 flex justify-center items-center text-sm fixed bottom-0 left-0 right-0 z-[999]"
+    >
         <div
-            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-[999]"
+            class="max-w-3xl w-full px-4 md:px-8 mb-8 flex justify-between items-center"
         >
             <div class="w-28.5 flex justify-start items-center z-[200]">
                 <nuxt-link to="/">
@@ -34,7 +36,7 @@
                                     ? { y: 0, opacity: 1 }
                                     : { y: 4, opacity: 0 }
                             "
-                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit w-full absolute bottom-0 right-0 mb-12 bg-white"
+                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-white"
                             id="navigation-items"
                             :class="{ 'pointer-events-none!': !menuOpen }"
                         >
@@ -57,7 +59,7 @@
                                           }
                                         : { delay: i.id * 0.05 }
                                 "
-                                class="h-9 w-[calc(100%-16px)] text-center bg-[#faf8f4] hover:bg-[#fcf4f0] gap-4 relative flex justify-center items-center text-[#010101]"
+                                class="h-7 w-[calc(100%-16px)] text-center bg-[#faf8f4] hover:bg-[#fcf4f0] gap-4 relative flex justify-center items-center text-[#010101]"
                                 :class="{
                                     'bg-[#ddccbb]! mt-6! hover:bg-[#dcb]!':
                                         i.cta,
@@ -65,6 +67,7 @@
                                 id="navigation-items"
                             >
                                 <nuxt-link
+                                    @click="toggleMenuState"
                                     class="text-start h-full w-full flex items-center justify-between no-select"
                                     :to="i.url"
                                     :class="{
@@ -88,7 +91,7 @@
                 </Transition>
                 <button
                     @click="toggleMenuState"
-                    class="h-[36px] w-[114px] text-center bg-[#ddccbb] hover:bg-[#ccbbaa] gap-4 relative flex justify-center items-center"
+                    class="h-7 w-[114px] text-center bg-[#ddccbb] hover:bg-[#ccbbaa] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
                     :class="{ 'bg-[#ccbbaa]!': menuOpen }"
                 >
@@ -187,3 +190,7 @@ const items = [
     id: j,
 }));
 </script>
+
+<style scoped>
+/* Adjust main content to account for fixed navbar */
+</style>

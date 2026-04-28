@@ -25,99 +25,74 @@ useSeoMeta({
 </script>
 
 <template>
-    <div class="w-full py-20">
-        <div class="px-5">
-            <!-- Two-column layout for desktop -->
-            <div class="flex flex-col gap-12">
-                <!-- Main content -->
-                <article
-                    class="prose prose-invert container mx-auto grow max-w-3xl"
+    <div class="w-full py-8 px-0 flex flex-col gap-8">
+        <article class="w-full">
+            <div class="mb-8 text-[#886655] text-xs">
+                <span class="mr-3" v-if="post.date">{{
+                    formatDate(post.date)
+                }}</span>
+                /
+                <nuxt-link
+                    to="/blog"
+                    class="uppercase font-semibold inline-flex items-center ml-1 px-2 link text-xs"
                 >
-                    <div class="mb-8 text-[#886655] text-sm">
-                        <span class="mr-3" v-if="post.date">{{
-                            formatDate(post.date)
-                        }}</span>
-                        /
+                    <span>Blog</span>
+                </nuxt-link>
+            </div>
+
+            <div v-if="post">
+                <!-- Post header -->
+                <div class="mb-10">
+                    <h1 class="text-lg font-bold mb-3">
+                        {{ post.title }}
+                    </h1>
+
+                    <h2 class="text-sm text-[#886655] mb-8">
+                        {{ post.description }}
+                    </h2>
+
+                    <!-- Featured image -->
+                    <div v-if="post.hero" class="mb-8 overflow-hidden">
+                        <img
+                            :src="post.hero"
+                            :alt="post.title"
+                            class="h-auto w-full object-cover"
+                        />
+                    </div>
+                </div>
+
+                <!-- Post content -->
+                <div class="blog-content-wrapper">
+                    <ContentRenderer :value="post" class="blog-content" />
+                </div>
+
+                <!-- Post footer -->
+                <div
+                    class="mt-16 pt-8 border-t border-[#4e0d0b]/20 flex justify-between flex-col sm:flex-row gap-4"
+                >
+                    <nuxt-link
+                        to="/blog"
+                        class="uppercase font-semibold inline-flex items-center link px-2 text-xs h-fit"
+                    >
+                        <span> // all posts </span>
+                    </nuxt-link>
+                    <div class="font-semibold inline flex gap-2 text-xs">
+                        <span>Share:</span>
                         <nuxt-link
-                            to="/blog"
-                            class="uppercase font-semibold inline-flex items-center ml-1 px-2 link"
+                            :to="`https://x.com/intent/post?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
+                            class="inline-flex items-center link px-1 h-full"
                         >
-                            <span>Blog</span>
+                            <span>X <span class="line-through">Twitter</span></span>
+                        </nuxt-link>
+                        <nuxt-link
+                            :to="`https://www.linkedin.com/sharing/share-offsite/?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
+                            class="inline-flex items-center link px-1 h-full"
+                        >
+                            <span>LinkedIn</span>
                         </nuxt-link>
                     </div>
-
-                    <div v-if="post">
-                        <!-- Post header -->
-                        <div class="mb-10">
-                            <h1
-                                class="text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-3"
-                            >
-                                {{ post.title }}
-                            </h1>
-
-                            <h2 class="text-xl mb-8">
-                                {{ post.description }}
-                            </h2>
-
-                            <!-- Featured image -->
-                            <div
-                                v-if="post.hero"
-                                class="mb-8 rounded-xl overflow-visible"
-                            >
-                                <img
-                                    :src="post.hero"
-                                    :alt="post.title"
-                                    class="h-auto w-full object-cover"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Post content -->
-                        <div class="blog-content-wrapper">
-                            <ContentRenderer
-                                :value="post"
-                                class="blog-content"
-                            />
-                        </div>
-
-                        <!-- Post footer -->
-                        <div
-                            class="mt-16 pt-8 border-t border-[#4e0d0b] flex justify-between"
-                        >
-                            <div
-                                class="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4"
-                            >
-                                <nuxt-link
-                                    to="/blog"
-                                    class="uppercase font-semibold inline-flex items-center link px-2 text-sm h-full"
-                                >
-                                    <span> // all posts </span>
-                                </nuxt-link>
-                            </div>
-                            <div class="font-semibold inline">
-                                Share:
-                                <nuxt-link
-                                    :to="`https://x.com/intent/post?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
-                                    class="inline-flex items-center link px-1 text-sm h-full"
-                                >
-                                    <span
-                                        >X
-                                        <span class="line-through"
-                                            >Twitter</span
-                                        ></span
-                                    >
-                                </nuxt-link>
-                                <nuxt-link
-                                    :to="`https://www.linkedin.com/sharing/share-offsite/?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
-                                    class="inline-flex items-center link px-1 text-sm h-full"
-                                >
-                                    <span>LinkedIn</span>
-                                </nuxt-link>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+                </div>
             </div>
-        </div>
+        </article>
     </div>
 </template>

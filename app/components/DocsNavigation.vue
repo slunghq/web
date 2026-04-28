@@ -1,7 +1,9 @@
 <template>
-    <div class="w-full py-4 flex justify-center items-center">
+    <div
+        class="w-full py-4 flex justify-center items-center text-sm fixed bottom-0 left-0 right-0 z-[999]"
+    >
         <div
-            class="min-w-[calc(100%-2.125rem)] md:min-w-[calc(100%-7.75rem)] mb-8 flex justify-between items-center fixed bottom-0 z-[999]"
+            class="max-w-3xl w-full px-4 md:px-8 mb-8 flex justify-between items-center"
         >
             <div class="w-28.5 flex justify-start items-center z-[200]">
                 <nuxt-link to="/">
@@ -12,7 +14,7 @@
                 class="hidden md:flex gap-2 items-end justify-center z-[200]"
             ></div>
             <div
-                class="z-[100] flex flex-wrap gap-2 items-center"
+                class="z-[100] flex flex-wrap gap-2 items-center max-w-3xl"
                 ref="menuContent"
             >
                 <Transition name="menu" :duration="250">
@@ -25,7 +27,7 @@
                                     ? { y: 0, opacity: 1 }
                                     : { y: 4, opacity: 0 }
                             "
-                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit w-full absolute bottom-0 right-0 mb-12 bg-white"
+                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-white"
                             id="navigation-items"
                             :class="{ 'pointer-events-none!': !menuOpen }"
                         >

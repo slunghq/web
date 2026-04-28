@@ -1,4 +1,5 @@
-# robots.txt - Allow search engines to crawl your site
+export default defineEventHandler((event) => {
+  const robotsTxt = `# robots.txt - Allow search engines to crawl your site
 # https://www.robotstxt.org/
 
 User-agent: *
@@ -38,4 +39,9 @@ Disallow: /
 
 # Sitemaps
 Sitemap: https://slung.tech/sitemap.xml
-Sitemap: https://slung.tech/sitemap-docs.xml
+`;
+
+  setHeader(event, "Content-Type", "text/plain; charset=utf-8");
+  setHeader(event, "Cache-Control", "public, max-age=86400");
+  return robotsTxt;
+});
