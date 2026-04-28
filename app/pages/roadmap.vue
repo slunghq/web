@@ -6,14 +6,14 @@
         >
             <h1 class="text-2xl font-bold">Roadmap</h1>
             <p class="text-base">
-                Here's what we've been up to. Help with reaching our goals
-                sooner will be greatly appreciated! If you want to contribute,
-                kindly check our
+                Building a distributed dataflow engine with durable, composable
+                rules. We're building the foundation first, then scaling up.
+                Want to help? Check our
                 <nuxt-link
                     class="link inline-block"
-                    to="https://github.com/slunghq/slung/issues"
+                    to="https://github.com/slunghq/slung"
                 >
-                    <span class="font-semibold">open issues</span>
+                    <span class="font-semibold">GitHub</span>
                 </nuxt-link>
                 .
             </p>
@@ -63,59 +63,67 @@ useSeoMeta({
 
 const items = [
     {
-        title: "Stream pipeline",
+        title: "Core Abstractions",
         description:
-            "System in-charge of managing and processing websocket streams.",
-        url: "https://github.com/slunghq/slung/issues/1",
-        status: "in-progress",
-    },
-    {
-        title: "TSM tree",
-        description:
-            "Time-structured merge tree. A timeseries optimised tree with a fast row-based memtable and a columnar disk format.",
-        url: "https://github.com/slunghq/slung/issues/2",
+            "Core types, memory primitives (CRDT-based LWW store), dirty signal queue, and capability graph indices for rule discovery.",
+        url: "https://github.com/slunghq/slung",
         status: "done",
     },
     {
-        title: "Parallel data query engine",
+        title: "Module Loading",
         description:
-            "Processes the temporal data from the stream and feeds it to the main compute execution. Sits between the ingestion pipeline, TSM and Wasm runtime.",
-        url: "https://github.com/slunghq/slung/issues/3",
-        status: "in-progress",
-    },
-    {
-        title: "Wasm execution",
-        description:
-            "Runs multi-tenanted durable functions that consume processed stream data and accesses TSM tree.",
-        url: "",
+            "Wasm descriptor parsing, graph builder, and host ABI context injection. Parse Rust-compiled modules; populate forward/reverse indices deterministically.",
+        url: "https://github.com/slunghq/slung",
         status: "done",
     },
     {
-        title: "Gateway",
+        title: "Generic ABI",
         description:
-            "Authenticated gateway and more streaming primitives for handling incoming data streams. Right now, we have plans for NATS and Kafka.",
-        url: "",
+            "Implement slung_get, slung_set, slung_now, slung_emit. Core read/write interface between Wasm rules and distributed state. Blocker for inference loop.",
+        url: "https://github.com/slunghq/slung",
+        status: "in-progress",
+    },
+    {
+        title: "Rust SDK",
+        description:
+            "High-level API for writing rules: #[rule], #[source], #[component] macros with type-safe context and built-in serialization.",
+        url: "https://github.com/slunghq/slung",
+        status: "in-progress",
+    },
+    {
+        title: "Inference Loop",
+        description:
+            "Single-worker dirty -> graph -> dispatch -> write cycle. Subscribe to dirty signal; discover affected rules; execute in priority order; merge results.",
+        url: "https://github.com/slunghq/slung",
         status: "planned",
     },
     {
-        title: "Object storage sync",
-        description: "Sync local data to the cloud with S3 or R2.",
-        url: "",
+        title: "Connector ABI",
+        description:
+            "HTTP, WebSocket, NATS, Kafka, TCP/UDP socket APIs. Let rules ingest from and emit to external systems.",
+        url: "https://github.com/slunghq/slung",
         status: "planned",
     },
     {
-        title: "Write-ahead log (WAL)",
+        title: "Concurrency (Multi-Worker)",
         description:
-            "Ensures durability and consistency by logging system operations before commiting them.",
-        url: "",
+            "Worker pool per namespace with shared state, atomic claims, and concurrent rule execution without data loss or duplication.",
+        url: "https://github.com/slunghq/slung",
+        status: "planned",
+    },
+    {
+        title: "Distributed Coordination",
+        description:
+            "Multi-node cluster, CRDT replication, cross-node dirty signal propagation, distributed claims, and module broadcasting.",
+        url: "https://github.com/slunghq/slung",
         status: "deferred",
     },
     {
-        title: "WebTransport",
+        title: "Additional SDKs (C, Zig, Go)",
         description:
-            "Fast, effecient, secure transport protocol over UDP. Replaces websocket for streams.",
-        url: "",
-        status: "planned",
+            "Language bindings and code generation for writing rules in C, Zig, Go, and other languages.",
+        url: "https://github.com/slunghq/slung",
+        status: "deferred",
     },
 ];
 </script>
