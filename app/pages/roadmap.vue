@@ -81,7 +81,7 @@ const items = [
         description:
             "Implement slung_get, slung_set, slung_now, slung_emit. Core read/write interface between Wasm rules and distributed state. Blocker for inference loop.",
         url: "https://github.com/slunghq/slung",
-        status: "in-progress",
+        status: "done",
     },
     {
         title: "Rust SDK",
@@ -95,14 +95,14 @@ const items = [
         description:
             "Single-worker dirty -> graph -> dispatch -> write cycle. Subscribe to dirty signal; discover affected rules; execute in priority order; merge results.",
         url: "https://github.com/slunghq/slung",
-        status: "planned",
+        status: "in-progress",
     },
     {
         title: "Connector ABI",
         description:
-            "HTTP, WebSocket, NATS, Kafka, TCP/UDP socket APIs. Let rules ingest from and emit to external systems.",
+            "HTTP, WebSocket, NATS, Kafka, Redis, TCP/UDP socket APIs. Let rules ingest from and emit to external systems.",
         url: "https://github.com/slunghq/slung",
-        status: "planned",
+        status: "in-progress",
     },
     {
         title: "Concurrency (Multi-Worker)",

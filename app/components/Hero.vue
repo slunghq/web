@@ -37,8 +37,7 @@
                                 <nuxt-link
                                     class="h-7 no-select px-8 text-center bg-[#fcf4f0] relative flex justify-center items-center link-vertical"
                                     id="navigation-items"
-                                    to="https://console.slung.tech"
-                                    target="_blank"
+                                    to="/"
                                 >
                                     <span class="uppercase font-bold"
                                         >try it out yourself</span

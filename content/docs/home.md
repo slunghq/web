@@ -1,29 +1,29 @@
 ---
-title: Welcome to the Slung docs!
+title: Welcome to Slung
 index: 1
 navTitle: Welcome
-metaTitle: Welcome to the Slung docs!
-description: Write real-time functions that compute over temporal data streams with full historical context.
+metaTitle: Welcome to Slung
+description: An ontology-driven compute engine that executes rules against real-time facts about your system.
 ---
 
 ## Overview
 
-[Quickstart](/docs/quickstart) - Get started with Slung.
+[Quickstart](/docs/quickstart) - Write and run your first module.
 
-[Use cases](/docs/usecases) - Where we think Slung can be useful.
+[Use cases](/docs/usecases) - Where Slung fits.
 
 ## Core Concepts
 
-[Streaming](/docs/streaming) - Learn how data flows through the runtime.
+[Sources](/docs/sources) - How external data enters the engine.
 
-[Queries](/docs/queries) - Simple but powerful query filters.
+[Components](/docs/components) - Typed fact payloads and active memory.
 
-[Write backs](/docs/writebacks) - Close the loop over HTTP & WS.
+[Rules](/docs/rules) - How rules watch components and fire.
 
 ## Misc
 
-[FAQ](/docs/faq) - Answers to common questions.
+[FAQ](/docs/faq) - Common questions.
 
-[Changelogs](/docs/changelogs) - See what's new in Slung.
+[Changelog](/docs/changelogs) - What's new.
 
 [GitHub](https://github.com/slunghq/slung) - Contribute to Slung.
