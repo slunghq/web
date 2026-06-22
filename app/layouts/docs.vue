@@ -19,5 +19,6 @@
                 style="right: calc(50% - 24rem)"
             />
         </main>
+        <Footer />
     </div>
 </template>
