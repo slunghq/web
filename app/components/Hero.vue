@@ -10,8 +10,8 @@
                 same principle behind incremental builds, applied to orchestration.
             </p>
             <div class="hero-actions uppercase ">
-                <NuxtLink id="navigation-items" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live -></span></NuxtLink>
-                <NuxtLink id="navigation-items" class="bracket-button link-vertical " to="/docs"><span class="text-(--text-primary)!">read the architecture -></span></NuxtLink>
+                <NuxtLink id="navigation-items" data-shortcut="l" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live <kbd class="keycap">L</kbd></span></NuxtLink>
+                <NuxtLink id="navigation-items" data-shortcut="r" class="bracket-button link-vertical" to="/docs"><span class="text-(--text-primary)!">read the architecture <kbd class="keycap">R</kbd></span></NuxtLink>
             </div>
         </div>
         <div class="trace-panel" aria-label="Slung runtime log">
@@ -59,6 +59,7 @@ const logLines = [
 ];
 const visibleLines = ref(0);
 const cursorBlinking = ref(true);
+
 const logViewport = ref<HTMLElement | null>(null);
 const timers: number[] = [];
 
@@ -72,6 +73,21 @@ const logClass = (prefix: string) => {
     if (prefix === "LOW STOCK ALERT: ") return "log-warning";
     if (prefix === "EMERGENCY: ") return "log-emergency";
     return "";
+};
+
+const handleShortcut = (event: KeyboardEvent) => {
+    if (event.metaKey || event.ctrlKey || event.altKey) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target?.tagName || "")) return;
+
+    if (event.key.toLowerCase() === "l") {
+        event.preventDefault();
+        document.querySelector<HTMLElement>('[data-shortcut="l"]')?.click();
+    }
+    if (event.key.toLowerCase() === "r") {
+        event.preventDefault();
+        document.querySelector<HTMLElement>('[data-shortcut="r"]')?.click();
+    }
 };
 
 const replayLog = () => {
@@ -99,11 +115,19 @@ const replayLog = () => {
     });
 };
 
-onMounted(replayLog);
-onUnmounted(() => timers.splice(0).forEach((timer) => window.clearTimeout(timer)));
+onMounted(() => {
+    replayLog();
+    window.addEventListener("keydown", handleShortcut, true);
+});
+onUnmounted(() => {
+    timers.splice(0).forEach((timer) => window.clearTimeout(timer));
+    window.removeEventListener("keydown", handleShortcut, true);
+});
 </script>
 
 <style scoped>
+@import "tailwindcss";
+
 .hero-shell { display: flex; flex-direction: column; gap: 3rem; padding: 5.5rem 0 2rem; }
 .hero-copy { max-width: 56rem; }
 .eyebrow { color: var(--accent-secondary); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem; }
@@ -114,6 +138,7 @@ h1 em { font-family: var(--font-accent); font-weight: 400; letter-spacing: -.04e
 .bracket-button { display: inline-flex; gap: .8rem; align-items: center; min-height: 1.75rem; padding: .55rem 1rem; color: var(--text-primary); font-size: .8rem; text-decoration: none; background-color: var(--bg-elevated); }
 .bracket-button.primary { background-color: var(--bg-elevated); color: var(--text-primary); }
 .bracket-button span { color: var(--accent-secondary); }
+.keycap { @apply size-4 shrink-0 rounded-xs items-center justify-center gap-0.5 text-[.6875rem] border border-gray-500/20 bg-gray-50/50 sm:inline-flex hidden leading-none border-white/20! bg-white/10!; }
 .trace-panel { background: var(--bg-inset); border: 1px solid var(--border-default); padding: 1.25rem; height: 24rem; min-height: 0; display: flex; flex-direction: column; font-family: var(--font-display); }
 .trace-header { color: var(--text-tertiary); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: .5rem; border-bottom: 1px solid var(--border-default); padding-bottom: .8rem; }
 .status-dot { width: .45rem; height: .45rem; background: var(--success); display: inline-block; border-radius: 50%; }
