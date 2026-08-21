@@ -22,23 +22,19 @@
             <nuxt-link
                 v-for="i in items"
                 :to="i.url"
-                class="flex flex-col items-start justify-start gap-3 py-4 px-4 bg-[#faf8f4] hover:bg-[#fcf4f0]"
+                class="flex flex-col items-start justify-start gap-3 py-4 px-4 bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)]"
                 id="navigation-top-left-bottom-right"
             >
                 <div class="flex items-start justify-between w-full gap-4">
                     <h2 class="font-semibold flex-1 text-lg">{{ i.title }}</h2>
                     <div class="font-[Intel] text-xs flex-shrink-0">
                         <span
-                            class="px-2 py-1 border text-xs"
+                            class="px-2 py-1 text-xs"
                             :class="{
-                                'bg-[#eae7e3] text-[#010101]':
-                                    i.status === 'planned',
-                                'bg-[#94ec94] text-[#010101]':
-                                    i.status === 'done',
-                                'bg-[#ecdc94] text-[#010101]':
-                                    i.status === 'in-progress',
-                                'bg-[#ea8888] text-[#010101]':
-                                    i.status === 'deferred',
+                                'status-planned': i.status === 'planned',
+                                'status-done': i.status === 'done',
+                                'status-in-progress': i.status === 'in-progress',
+                                'status-deferred': i.status === 'deferred',
                             }"
                         >
                             {{ i.status }}
@@ -127,3 +123,25 @@ const items = [
     },
 ];
 </script>
+
+<style scoped>
+.status-planned {
+    background-color: var(--bg-inset);
+    color: var(--text-primary);
+}
+
+.status-done {
+    background-color: #94ec94;
+    color: var(--bg-primary);
+}
+
+.status-in-progress {
+    background-color: #ecdc94;
+    color: var(--bg-primary);
+}
+
+.status-deferred {
+    background-color: #ea8888;
+    color: var(--bg-primary);
+}
+</style>

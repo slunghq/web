@@ -64,10 +64,10 @@ useSeoMeta({
             <article class="w-full">
                 <div
                     id="navigation-items"
-                    class="bg-[#faf8f4] p-6 mb-8"
+                    class="bg-[var(--bg-elevated)] p-6 mb-8"
                 >
                     <p
-                        class="text-sm uppercase font-semibold tracking-wide text-[#886655]"
+                        class="text-sm uppercase font-semibold tracking-wide text-[var(--accent-secondary)]"
                     >
                         Overview
                     </p>
@@ -84,7 +84,7 @@ useSeoMeta({
                     </p>
                     <div class="flex flex-wrap items-center gap-2">
                         <button
-                            class="h-7 px-4 bg-[#ddccbb] hover:bg-[#ccbbaa] font-semibold text-sm cursor-pointer"
+                            class="h-7 px-4 bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] font-semibold text-sm cursor-pointer"
                             id="navigation-items"
                             @click="copyAsMarkdown"
                         >
@@ -98,7 +98,7 @@ useSeoMeta({
                             />
                         </button>
                         <a
-                            class="h-7 px-4 bg-[#faf8f4] hover:bg-[#fcf4f0] font-semibold text-sm inline-flex items-center"
+                            class="h-7 px-4 bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] font-semibold text-sm inline-flex items-center"
                             id="navigation-items"
                             :href="editUrl"
                             target="_blank"
@@ -121,7 +121,7 @@ useSeoMeta({
         <div
             v-else
             id="navigation-items"
-            class="bg-[#faf8f4] p-8"
+            class="bg-[var(--bg-elevated)] p-8"
         >
             <h1 class="text-2xl font-bold">Document Not Found</h1>
             <p class="mt-2 text-base">This docs page does not exist.</p>

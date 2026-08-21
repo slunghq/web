@@ -16,183 +16,71 @@
   src: url("./fonts/Lilex[wght].ttf");
 }
 
-@theme static {
-  --background: hsl(210, 10%, 95%);
-  --foreground: hsl(210, 10%, 10%);
+:root {
+  --bg-primary: #0A120F;
+  --bg-elevated: #101A16;
+  --bg-inset: #060B09;
+  --text-primary: #F2EFE9;
+  --text-secondary: #9BA69F;
+  --text-tertiary: #5C6A62;
+  --accent-primary: #C1502E;
+  --accent-primary-dim: #7A3620;
+  --accent-secondary: #A67A6E;
+  --border-default: #24312B;
+  --border-accent: #C1502E;
+  --success: #6B9B7A;
+  --font-display: "Intel", "Lilex", ui-monospace, monospace;
+  --font-body: "Lilex", ui-monospace, monospace;
+  --font-accent: "IBM Plex Serif", Georgia, serif;
 }
 
 @layer base {
-  :root {
-    --background: 210, 10%, 95%;
-    --foreground: 210, 10%, 10%;
-    --font-sans: "Fustat", sans-serif;
-    --font-mono: "Lilex", monospace;
-  }
+  html { background: var(--bg-primary); }
 
   body {
-    @apply bg-[#fffdf6] font-[Fustat] text-[#010101];
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
   }
 
-  #navigation-items {
-    position: relative;
-    --corner-size: 8px;
-    --corner-thickness: 2px;
-    background-image:
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
-    background-position:
-      top left,
-      top left,
-      top right,
-      top right,
-      bottom left,
-      bottom left,
-      bottom right,
-      bottom right;
-    background-size:
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness),
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness),
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness),
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness);
-    background-repeat: no-repeat;
-  }
+  ::selection { color: var(--text-primary); background: var(--accent-primary); }
 
-  #navigation-items-bottom {
-    position: relative;
-    --corner-size: 8px;
-    --corner-thickness: 2px;
-    background-image:
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
-    background-position:
-      bottom left,
-      bottom left,
-      bottom right,
-      bottom right;
-    background-size:
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness),
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness);
-    background-repeat: no-repeat;
-  }
-
+  #navigation-items,
+  #navigation-items-bottom,
   #navigation-top-left-bottom-right {
     position: relative;
     --corner-size: 8px;
-    --corner-thickness: 2px;
+    --corner-thickness: 1px;
     background-image:
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b),
-      linear-gradient(#4e0d0b, #4e0d0b), linear-gradient(#4e0d0b, #4e0d0b);
-    background-position:
-      top left,
-      top left,
-      bottom right,
-      bottom right;
-    background-size:
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness),
-      var(--corner-thickness) var(--corner-size),
-      var(--corner-size) var(--corner-thickness);
+      linear-gradient(var(--border-accent), var(--border-accent)), linear-gradient(var(--border-accent), var(--border-accent)),
+      linear-gradient(var(--border-accent), var(--border-accent)), linear-gradient(var(--border-accent), var(--border-accent)),
+      linear-gradient(var(--border-accent), var(--border-accent)), linear-gradient(var(--border-accent), var(--border-accent)),
+      linear-gradient(var(--border-accent), var(--border-accent)), linear-gradient(var(--border-accent), var(--border-accent));
+    background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+    background-size: var(--corner-thickness) var(--corner-size), var(--corner-size) var(--corner-thickness), var(--corner-thickness) var(--corner-size), var(--corner-size) var(--corner-thickness), var(--corner-thickness) var(--corner-size), var(--corner-size) var(--corner-thickness), var(--corner-thickness) var(--corner-size), var(--corner-size) var(--corner-thickness);
     background-repeat: no-repeat;
   }
 
-  .no-select {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-  }
+  #navigation-items-bottom { background-position: bottom left, bottom left, bottom right, bottom right; }
+  #navigation-top-left-bottom-right { background-position: top left, top left, bottom right, bottom right; }
 
-  ::-moz-selection,
-  ::selection {
-    @apply text-[#ffffff] bg-[#4e0d0b];
-  }
+  .no-select { user-select: none; -webkit-user-drag: none; }
 
-  .negative {
-    @apply text-[#ffffff] bg-[#4e0d0b];
-  }
+  .link { position: relative; display: inline-block; isolation: isolate; text-decoration: none; color: var(--text-primary); }
+  .link::before { content: ""; position: absolute; inset: 0; width: 0; background: var(--accent-primary); transition: width .25s ease; z-index: 0; }
+  .link:hover::before { width: 100%; }
+  .link span { position: relative; z-index: 1; }
 
-  .negative::-moz-selection,
-  .negative::selection {
-    @apply text-[#4e0d0b] bg-[#ffffff];
-    * {
-      @apply text-[#4e0d0b] bg-[#ffffff];
-    }
-  }
+  .link-vertical { position: relative; overflow: hidden; text-decoration: none; }
+  .link-vertical::before { content: ""; position: absolute; inset: auto 0 0; height: 0; background: var(--accent-primary); transition: height .25s ease; z-index: 0; }
+  .link-vertical:hover::before { height: 100%; }
+  .link-vertical span { position: relative; z-index: 1; transition: color .25s ease; }
+  .link-vertical:hover span { color: var(--text-primary); }
+}
 
-  .link {
-    position: relative;
-    display: inline-block;
-    isolation: isolate;
-    text-decoration: none;
-  }
-
-  .link::before {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 100%;
-    bottom: 0;
-    left: 0;
-    background-color: #4e0d0b;
-    transition: width 0.25s ease;
-    z-index: 0;
-  }
-
-  .link:hover::before {
-    width: 100%;
-  }
-
-  .link span {
-    position: relative;
-    z-index: 1;
-    background: linear-gradient(to right, #ffffff 50%, #4e0d0b 50%);
-    background-size: 200% 100%;
-    background-position: 100% 0;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-position 0.25s ease;
-  }
-
-  .link:hover span {
-    background-position: 0 0;
-  }
-  .link-vertical {
-    position: relative;
-    text-decoration: none;
-    overflow: hidden;
-  }
-
-  .link-vertical::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 0;
-    bottom: 0;
-    left: 0;
-    background-color: #4e0d0b;
-    transition: height 0.25s ease;
-    z-index: 0;
-  }
-
-  .link-vertical:hover::before {
-    height: 100%;
-  }
-
-  .link-vertical span {
-    position: relative;
-    z-index: 1;
-    transition: color 0.25s ease;
-  }
-
-  .link-vertical:hover span {
-    color: #ffffff;
-  }
+.trace-step { opacity: 0; transform: translateY(4px); }
+.trace-step.is-visible { opacity: 1; transform: translateY(0); transition: opacity .2s ease, transform .2s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .trace-step { opacity: 1; transform: none; }
+  .trace-step.is-visible { transition: none; }
 }

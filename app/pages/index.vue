@@ -1,167 +1,72 @@
 <template>
-    <div class="relative w-full overflow-clip z-20 flex flex-col gap-12">
+    <div class="home-page">
         <Hero />
 
-        <!-- Overview -->
-        <!-- <section class="w-full flex flex-col gap-4">
-            <h2
-                class="text-xs uppercase font-semibold tracking-widest text-[#4e0d0b] opacity-60"
-            >
-                Overview
-            </h2>
-            <p class="text-base leading-relaxed text-[#2a2a2a]">
-                <span class="text-[#4e0d0b] inline uppercase">Slung</span> is an ontology-driven compute engine that executes work
-                based on real-time facts about relationships between components
-                in your system. Instead of rigid step-based workflows, it thinks
-                in terms of relationships, facts, and rules that automatically
-                propagate changes across your entire system.
-            </p>
-        </section> -->
-
-        <!-- The Problem -->
-        <section class="w-full flex flex-col gap-4 pt-4">
-            <h2
-                class="text-xs uppercase font-semibold tracking-widest text-[#4e0d0b] opacity-60"
-            >
-                The Problem
-            </h2>
-            <p class="text-base leading-relaxed text-[#2a2a2a]">
-                Traditional workflow engines model work as a sequence of steps.
-                This works for predictable processes but breaks down when facts
-                change asynchronously and decisions need to adapt in real time.
-                You end up writing glue code to handle edge cases, retry logic,
-                and state synchronization.
-            </p>
+        <section class="content-section">
+            <div class="section-heading"><p class="eyebrow">the problem</p><span class="section-rule"></span></div>
+            <p class="section-copy">Traditional workflow engines model work as a sequence of steps. That's fine when the process is predictable - it breaks down the moment facts change asynchronously and downstream logic needs to react. You end up hand-writing the glue: what depends on what, what re-runs when something changes, what happens when two things change at once. That glue is where the bugs live.</p>
         </section>
 
-        <!-- How It Works -->
-        <section
-            class="w-full flex flex-col gap-4 border-t border-[#4e0d0b] border-dashed pt-8"
-        >
-            <h2
-                class="text-xs uppercase font-semibold tracking-widest text-[#4e0d0b] opacity-60"
-            >
-                How It Works
-            </h2>
-            <p class="text-base leading-relaxed text-[#2a2a2a]">
-                <span class="text-[#4e0d0b] inline uppercase">Slung</span>
-                replaces rigid steps with relationships. Data sources become
-                first-class entities in an Entity Component System (ECS) model.
-                Rules fire automatically when facts about components change
-                (component is then marked dirty). Fact changes propagate
-                instantly to every rule that depends on them, creating implicit
-                orchestration without explicit wiring between systems.
-            </p>
-            <div
-                class="mt-4 p-2 h-fit flex! items-center border border-[#e8d4cf] text-xs font-mono text-[#6b2420] text-nowrap overflow-scroll hide-scroll"
-            >
-                fact changes -> components marked dirty -> rules re-evaluate ->
-                updates facts -> cascade propagates
-                <!--
- ○──○──○──○──○──○──○──○    main
-            │
-            └──○──○──○──○──○    fork-a
-                  │
-                  └──○──○──○──○──○    fork-b
-                   -->
+        <section class="content-section">
+            <div class="section-heading"><p class="eyebrow">how it works</p><span class="section-rule"></span></div>
+            <p class="section-copy">Your system is entities (a sensor, an order, a session) made of components - facts about that entity. Rules subscribe to components, not to a schedule or a step number. When a fact changes, the component is marked dirty. Every rule that depends on it re-evaluates automatically, and if that rule writes new facts, the cascade continues.</p>
+            <p class="section-note">No DAG to maintain. No explicit "then call X" wiring. The dependency graph is implicit in what each rule reads and writes - only what's actually affected by a change recomputes.</p>
+        </section>
+
+        <section class="alpha-notice"><span>[!]</span><p><strong>Slung is alpha software.</strong> The core propagation model works; connectors are actively being hardened. <NuxtLink to="roadmap">Track our roadmap -></NuxtLink></p></section>
+
+        <section class="content-section built-for">
+            <div class="section-heading"><p class="eyebrow">built for</p><span class="section-rule"></span></div>
+            <div class="feature-grid">
+                <article v-for="feature in features" :key="feature.title" class="feature-card" id="navigation-top-left-bottom-right">
+                    <h3>{{ feature.title }}</h3><p>{{ feature.description }}</p>
+                </article>
             </div>
         </section>
 
-        <!-- Built For -->
-        <section
-            class="w-full flex flex-col gap-6 border-t border-[#4e0d0b] border-dashed pt-8"
-        >
-            <h2
-                class="text-xs uppercase font-semibold tracking-widest text-[#4e0d0b] opacity-60"
-            >
-                Built For
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-semibold text-[#4e0d0b]">
-                        Implicit Orchestration
-                    </h3>
-                    <p class="text-sm text-[#6b2420] leading-relaxed">
-                        No explicit wiring between rules. Relationships define
-                        everything.
-                    </p>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-semibold text-[#4e0d0b]">
-                        Real-time Propagation
-                    </h3>
-                    <p class="text-sm text-[#6b2420] leading-relaxed">
-                        Fact changes trigger affected rules automatically across
-                        your system.
-                    </p>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-semibold text-[#4e0d0b]">
-                        Language Agnostic
-                    </h3>
-                    <p class="text-sm text-[#6b2420] leading-relaxed">
-                        Rules compile to WebAssembly for universal
-                        compatibility.
-                    </p>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <h3 class="text-sm font-semibold text-[#4e0d0b]">
-                        Edge Optimised
-                    </h3>
-                    <p class="text-sm text-[#6b2420] leading-relaxed">
-                        Lightweight single binary deployable anywhere.
-                    </p>
-                </div>
-            </div>
+        <section class="content-section get-started">
+            <div class="section-heading"><p class="eyebrow">get started</p><span class="section-rule"></span></div>
+            <p class="section-copy">Read the architecture doc to understand the model before you touch code, or run the quickstart to see propagation happen locally. Slung is early - the best way to help right now is small, scoped contributions. Check open issues; several don't require deep familiarity with the codebase first.</p>
+            <div class="started-links"><NuxtLink to="/docs" class="link"><span>Read the docs -></span></NuxtLink><NuxtLink to="https://github.com/slunghq/slung" target="_blank" class="link"><span>View on github -></span></NuxtLink><NuxtLink to="https://github.com/slunghq/slung/issues" target="_blank" class="link"><span>Open issues -></span></NuxtLink></div>
         </section>
-
-        <!-- Get Started -->
-        <section
-            class="w-full flex flex-col gap-6 border-t border-[#4e0d0b] border-dashed pt-8"
-        >
-            <h2
-                class="text-xs uppercase font-semibold tracking-widest text-[#4e0d0b] opacity-60"
-            >
-                Get Started
-            </h2>
-            <p class="text-base leading-relaxed text-[#2a2a2a]">
-                Explore the
-                <nuxt-link to="/docs" class="font-semibold link">
-                    <span>documentation</span></nuxt-link
-                >
-                to understand core concepts, or jump into the
-                <nuxt-link
-                    to="https://github.com/slunghq/slung"
-                    target="_blank"
-                    class="font-semibold link"
-                    ><span>repository</span></nuxt-link
-                >
-                to start building.
-            </p>
-        </section>
-
-        <Ribbon />
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const features = [
+    { title: "No wiring required", description: "Define what a rule reads and writes. Slung derives the dependency graph - you don't maintain one." },
+    { title: "Propagation, not polling", description: "A fact change triggers only the rules that depend on it, immediately. Not a scheduled sweep." },
+    { title: "Compiles to WebAssembly", description: "Write rules in Rust, Go, or anything that targets WASM. The engine doesn't care what language your logic is in." },
+    { title: "Single binary, edge-ready", description: "No broker, no scheduler service, no separate state store to run alongside it." },
+];
+
 useSeoMeta({
-    title: "Compute Engine for Real-time Decisions",
-    ogTitle: "Compute Engine for Real-time Decisions",
-    description:
-        "An ontology-driven compute engine that executes work based on real-time facts. Deploy adaptive systems that propagate changes automatically across your data stack.",
-    ogDescription:
-        "An ontology-driven compute engine that executes work based on real-time facts. Deploy adaptive systems that propagate changes automatically across your data stack.",
+    title: "Incremental execution for systems engineers",
+    ogTitle: "Incremental execution for systems engineers",
+    description: "Slung reacts to changing facts instead of running fixed steps. An incremental execution engine for orchestration.",
+    ogDescription: "Slung reacts to changing facts instead of running fixed steps. An incremental execution engine for orchestration.",
     twitterCard: "summary_large_image",
     twitterSite: "@slunghq",
 });
 </script>
 
-<style>
-.hide-scroll {
-    &::-webkit-scrollbar {
-        display: none;
-    }
-    scrollbar-width: none;
-}
+<style scoped>
+.home-page { display: flex; flex-direction: column; gap: 4.5rem; padding-bottom: 5rem; }
+.content-section { display: flex; flex-direction: column; gap: 1.5rem; }
+.section-heading { display: flex; align-items: center; gap: 1rem; }
+.eyebrow { color: var(--accent-secondary); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.section-rule { height: 1px; background: var(--border-default); flex: 1; }
+.section-copy { color: var(--text-secondary); font-size: 1rem; line-height: 1.75; max-width: 49rem; }
+.section-note { color: var(--text-primary); font-size: .875rem; line-height: 1.7; border-left: 2px solid var(--accent-primary); padding-left: 1rem; max-width: 49rem; }
+.alpha-notice { border: 1px dashed var(--accent-primary); background: var(--bg-elevated); display: flex; gap: 1rem; padding: 1rem; color: var(--text-secondary); font-size: .8rem; line-height: 1.6; }
+.alpha-notice > span { color: var(--accent-primary); font-family: var(--font-display); }
+.alpha-notice strong { color: var(--text-primary); font-weight: 500; }
+.alpha-notice a { color: var(--accent-primary); text-decoration: none; }
+.feature-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.feature-card { background: var(--bg-elevated); padding: 1.25rem; min-height: 9rem; }
+.feature-card h3 { color: var(--text-primary); font-family: var(--font-display); font-size: .95rem; margin-bottom: .75rem; }
+.feature-card p { color: var(--text-secondary); font-size: .8rem; line-height: 1.65; }
+.get-started { padding-top: 1rem; }
+.started-links { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: .8rem; }
+@media (min-width: 768px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
 </style>

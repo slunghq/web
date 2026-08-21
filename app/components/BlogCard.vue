@@ -2,10 +2,10 @@
     <div class="flex flex-col mb-6 h-fit">
         <nuxt-link
             :to="post.path"
-            class="block bg-[#faf8f4] hover:bg-[#fcf4f0] transition-all duration-300 hover:transform border border-transparent hover:border-[#4e0d0b]"
+            class="block bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] transition-all duration-300 hover:transform border border-transparent hover:border-[var(--accent-primary)]"
         >
             <div
-                class="relative h-auto overflow-hidden bg-[#faf8f4] hover:bg-[#fcf4f0] group"
+                class="relative h-auto overflow-hidden bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] group"
             >
                 <img
                     :src="`/blog/${post.hero}`"

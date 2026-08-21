@@ -10,8 +10,8 @@
                     <img src="assets/img/logo.png" alt="Logo" class="w-7" />
                 </nuxt-link>
             </div>
-            <div class="hidden md:flex gap-2 items-end justify-center z-[200]">
-                <nuxt-link class="text-start link" to="/docs">
+            <div class="hidden md:flex gap-2 items-end justify-center z-[200] uppercase">
+                <!-- <nuxt-link class="text-start link" to="/docs">
                     <span class="px-2 font-semibold" data-text="// Docs"
                         >// Docs</span
                     >
@@ -20,7 +20,7 @@
                     <span class="px-2 font-semibold" data-text="// Blog"
                         >// Blog</span
                     >
-                </nuxt-link>
+                </nuxt-link> -->
             </div>
             <div
                 class="z-[100] flex flex-wrap gap-2 items-center"
@@ -36,7 +36,7 @@
                                     ? { y: 0, opacity: 1 }
                                     : { y: 4, opacity: 0 }
                             "
-                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-white"
+                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-[var(--bg-inset)]"
                             id="navigation-items"
                             :class="{ 'pointer-events-none!': !menuOpen }"
                         >
@@ -59,9 +59,9 @@
                                           }
                                         : { delay: i.id * 0.05 }
                                 "
-                                class="h-7 w-[calc(100%-16px)] text-center bg-[#faf8f4] hover:bg-[#fcf4f0] gap-4 relative flex justify-center items-center text-[#010101]"
+                                class="h-7 w-[calc(100%-16px)] text-center bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] gap-4 relative flex justify-center items-center text-[var(--text-primary)]"
                                 :class="{
-                                    'bg-[#ddccbb]! mt-6! hover:bg-[#dcb]!':
+                                    'bg-[var(--accent-primary-dim)]! mt-6! hover:bg-[var(--accent-primary-dim)]!':
                                         i.cta,
                                 }"
                                 id="navigation-items"
@@ -91,12 +91,12 @@
                 </Transition>
                 <button
                     @click="toggleMenuState"
-                    class="h-7 w-[114px] text-center bg-[#ddccbb] hover:bg-[#ccbbaa] gap-4 relative flex justify-center items-center"
+                    class="h-7 w-[114px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-dim)] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
-                    :class="{ 'bg-[#ccbbaa]!': menuOpen }"
+                    :class="{ 'bg-[var(--accent-primary-dim)]!': menuOpen }"
                 >
                     <svg
-                        class="fill-[#010101] shrink-0 mr-2"
+                        class="fill-[var(--text-primary)] shrink-0 mr-2"
                         width="16"
                         height="16"
                         xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +122,7 @@
                             }"
                         />
                     </svg>
-                    <span class="uppercase text-[#010101] font-bold mr-1">
+                    <span class="uppercase text-[var(--text-primary)] font-bold mr-1">
                         MENU
                     </span>
                 </button>

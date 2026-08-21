@@ -27,7 +27,7 @@
                                     ? { y: 0, opacity: 1 }
                                     : { y: 4, opacity: 0 }
                             "
-                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-white"
+                            class="flex flex-col items-center justify-center py-2 gap-2 h-fit max-w-3xl w-full absolute bottom-full right-1/2 translate-x-1/2 mb-4 bg-[var(--bg-inset)]"
                             id="navigation-items"
                             :class="{ 'pointer-events-none!': !menuOpen }"
                         >
@@ -52,13 +52,13 @@
                                           }
                                         : { delay: group.id * 0.05 }
                                 "
-                                class="w-[calc(100%-16px)] relative text-[#010101]"
+                                class="w-[calc(100%-16px)] relative text-[var(--text-primary)]"
                                 id="navigation-items"
                             >
                                 <button
-                                    class="w-full px-4 py-2 text-xs uppercase tracking-wide text-[#886655] bg-[#faf8f4] text-start font-semibold cursor-pointer flex items-center justify-between"
+                                    class="w-full px-4 py-2 text-xs uppercase tracking-wide text-[var(--accent-secondary)] bg-[var(--bg-elevated)] text-start font-semibold cursor-pointer flex items-center justify-between"
                                     :class="{
-                                        'text-[#4e0d0b] bg-[#f7eadf]':
+                                        'text-[var(--accent-primary)] bg-[var(--bg-inset)]':
                                             group.name === activeGroupName,
                                     }"
                                     @click="toggleGroup(group.name)"
@@ -79,9 +79,9 @@
                                     <nuxt-link
                                         v-for="item in group.items"
                                         :key="item.id"
-                                        class="text-start h-9 w-full flex items-center justify-between no-select bg-[#faf8f4] hover:bg-[#fcf4f0]"
+                                        class="text-start h-9 w-full flex items-center justify-between no-select bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)]"
                                         :class="{
-                                            'bg-[#fff8f0]!': isActivePath(
+                                            'bg-[var(--bg-inset)]!': isActivePath(
                                                 item.url,
                                             ),
                                         }"
@@ -95,7 +95,7 @@
                                         <span
                                             class="uppercase px-6 font-semibold"
                                             :class="{
-                                                'text-[#4e0d0b]': isActivePath(
+                                                'text-[var(--accent-primary)]': isActivePath(
                                                     item.url,
                                                 ),
                                             }"
@@ -110,12 +110,12 @@
                 </Transition>
                 <button
                     @click="toggleMenuState"
-                    class="h-[36px] w-[170px] text-center bg-[#ddccbb] hover:bg-[#ccbbaa] gap-4 relative flex justify-center items-center"
+                    class="h-[36px] w-[170px] text-center bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
-                    :class="{ 'bg-[#ccbbaa]!': menuOpen }"
+                    :class="{ 'bg-[var(--bg-inset)]!': menuOpen }"
                 >
                     <svg
-                        class="fill-[#010101] shrink-0 mr-2"
+                        class="fill-[var(--text-primary)] shrink-0 mr-2"
                         width="16"
                         height="16"
                         xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@
                             }"
                         />
                     </svg>
-                    <span class="uppercase text-[#010101] font-bold mr-1">
+                    <span class="uppercase text-[var(--text-primary)] font-bold mr-1">
                         NAVIGATION
                     </span>
                 </button>

@@ -1,9 +1,9 @@
 <template>
     <div
-        class="w-full bg-[#fffdf6] border-[#4e0d0b] border-t border-dashed text-sm z-999 footer flex justify-center"
+        class="w-full bg-[var(--bg-primary)] border-[var(--border-default)] border-t border-dashed text-sm z-999 footer flex justify-center"
     >
         <div
-            class="max-w-3xl w-full px-4 md:px-8 py-9 md:py-11 md:border-l md:border-r border-dashed border-[#4e0d0b]"
+            class="max-w-3xl w-full px-4 md:px-8 py-9 md:py-11 md:border-l md:border-r border-dashed border-[var(--border-default)]"
         >
             <div class="w-full flex justify-between items-start">
                 <ul class="uppercase font-semibold">
@@ -13,7 +13,7 @@
                         >
                     </li>
                     <li class="link w-fit">
-                        <nuxt-link to="https://x.com/s3ndotxyz"
+                        <nuxt-link to="https://x.com/slunghq"
                             ><span
                                 >x
                                 <span class="line-through">twitter</span></span

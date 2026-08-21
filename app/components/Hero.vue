@@ -1,91 +1,135 @@
 <template>
-    <div class="min-h-[calc(40vh-113px)] relative flex flex-col gap-8 w-full">
-        <header class="flex-1 relative h-full overflow-hidden w-full">
-            <div
-                class="flex flex-col items-center justify-center relative px-0 h-full w-full"
-            >
-                <div
-                    class="flex flex-col gap-4 justify-center z-10 pt-[6.25rem] w-full"
-                >
-                    <h1
-                        class="flex flex-col text-reveal-title-fluid tracking-headline uppercase"
-                    >
-                        COMPUTE ENGINE FOR REAL-TIME DECISIONS
-                    </h1>
-                    <div class="flex flex-col gap-8 w-full">
-                        <p class="flex flex-col text-left text-base">
-                            Orchestrate complex mission critical systems for
-                            real-time emergent data. Designed for
-                            <span class="font-semibold inline">
-                                decisive autonomous action!
-                            </span>
-                        </p>
-                        <div class="flex items-center gap-6 w-full">
-                            <div
-                                class="w-full gap-6 lg:gap-12 flex flex-col lg:flex-row text-sm"
-                            >
-                                <nuxt-link
-                                    class="h-7 no-select px-8 text-center bg-[#dcb] relative flex justify-center items-center link-vertical"
-                                    id="navigation-items"
-                                    to="https://cal.com/ewanretor/slung-live"
-                                    target="_blank"
-                                >
-                                    <span class="uppercase font-bold"
-                                        >see it live</span
-                                    >
-                                </nuxt-link>
-                                <nuxt-link
-                                    class="h-7 no-select px-8 text-center bg-[#fcf4f0] relative flex justify-center items-center link-vertical"
-                                    id="navigation-items"
-                                    to="/"
-                                >
-                                    <span class="uppercase font-bold"
-                                        >try it out yourself</span
-                                    >
-                                </nuxt-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <header class="hero-shell">
+        <div class="hero-copy">
+            <p class="eyebrow">// incremental execution</p>
+            <h1>systems that <em>propagate</em>, not pipelines you wire by hand</h1>
+            <p class="hero-subhead">
+                Slung reacts to changing facts instead of running fixed steps.
+                Model your system as entities and components, write rules that
+                depend on them, and let the runtime handle what recomputes - the
+                same principle behind incremental builds, applied to orchestration.
+            </p>
+            <div class="hero-actions uppercase ">
+                <NuxtLink id="navigation-items" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live -></span></NuxtLink>
+                <NuxtLink id="navigation-items" class="bracket-button link-vertical " to="/docs"><span class="text-(--text-primary)!">read the architecture -></span></NuxtLink>
             </div>
-        </header>
-    </div>
+        </div>
+        <div class="trace-panel" aria-label="Slung runtime log">
+            <div class="trace-header"><span class="status-dot"></span> runtime log <span class="trace-live">live</span></div>
+            <div ref="logViewport" class="trace-log">
+                <template v-for="(line, index) in logLines" :key="index">
+                    <div v-if="visibleLines > index" class="log-line trace-step is-visible">
+                        <template v-if="logParts(line)">
+                            <span :class="logClass(logParts(line)!.prefix)">{{ logParts(line)!.prefix }}</span><span v-if="logParts(line)!.message"> {{ logParts(line)!.message }}</span>
+                        </template>
+                        <template v-else>&nbsp;</template>
+                    </div>
+                </template>
+                <span class="terminal-cursor" :class="{ 'is-blinking': cursorBlinking }" aria-hidden="true"></span>
+            </div>
+            <div class="trace-footer">
+                <div>
+                Check out the example:
+                <nuxt-link href="https://github.com/slunghq/slung/tree/dev/sdks/pipeline/rust/examples/webhook" target="_blank" rel="noopener noreferrer" class="link"><span class="text-(--text-primary)">examples/webhook</span></nuxt-link>.
+                </div>
+                <button id="navigation-items" type="button" @click="replayLog"><font-awesome :icon="['fas', 'rotate-right']" aria-hidden="true" /></button>
+            </div>
+        </div>
+    </header>
 </template>
 
-<script setup></script>
+<script setup lang="ts">
+const logLines = [
+    "info: HTTP webhook listener on http://0.0.0.0:2074",
+    "info: WebSocket gateway listening on http://0.0.0.0:2073",
+    "",
+    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "LOW STOCK ALERT: WIDGET-001 now at 25 units",
+    "",
+    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "LOW STOCK ALERT: CRITICAL-003 now at 10 units",
+    "EMERGENCY: CRITICAL-003 is critically low at 10 units — initiating emergency reorder",
+    "",
+    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "LOW STOCK ALERT: GADGET-002 now at 5 units",
+    "EMERGENCY: GADGET-002 is critically low at 5 units — initiating emergency reorder",
+    "",
+    "debug(dusty): Received: POST /test_ns/api/unknown",
+    "info: http webhook route not registered: test_ns/api/unknown",
+];
+const visibleLines = ref(0);
+const cursorBlinking = ref(true);
+const logViewport = ref<HTMLElement | null>(null);
+const timers: number[] = [];
 
-<style>
-@import "tailwindcss";
+const logParts = (line: string) => {
+    const match = line.match(/^(info: |debug(?:\([^)]*\))?: |LOW STOCK ALERT: |EMERGENCY: )\s?(.*)$/);
+    return match ? { prefix: match[1] || "", message: match[2] || "" } : null;
+};
 
-.hero {
-    @apply relative px-2 rounded-xl flex justify-start items-center;
-    * {
-        @apply z-10 relative text-[#010101];
+const logClass = (prefix: string) => {
+    if (prefix.startsWith("info") || prefix.startsWith("debug")) return "log-muted";
+    if (prefix === "LOW STOCK ALERT: ") return "log-warning";
+    if (prefix === "EMERGENCY: ") return "log-emergency";
+    return "";
+};
+
+const replayLog = () => {
+    timers.splice(0).forEach((timer) => window.clearTimeout(timer));
+    visibleLines.value = 0;
+    cursorBlinking.value = true;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        visibleLines.value = logLines.length;
+        cursorBlinking.value = false;
+        return;
     }
-}
-.text-reveal-title-fluid {
-    font-size: clamp(
-        1.25rem,
-        calc(1.25rem + (1.5 - 1.25) * ((95vw - 30rem) / (120 - 30))),
-        5rem
-    );
-    line-height: clamp(
-        2.025rem,
-        calc(2.025rem + (3.5 - 2.025) * ((100vw - 30rem) / (120 - 30))),
-        4.5rem
-    );
-}
 
-.text-medium-fluid {
-    font-size: clamp(
-        1.125rem,
-        calc(1.125rem + (1.25 - 1.125) * ((100vw - 30rem) / (120 - 30))),
-        1.25rem
-    );
-    line-height: clamp(
-        1.5rem,
-        calc(1.5rem + (1.75 - 1.5) * ((100vw - 30rem) / (120 - 30))),
-        1.75rem
-    );
-}
+    let elapsed = 1750;
+    logLines.forEach((line, index) => {
+        if (line.startsWith("LOW STOCK ALERT:")) elapsed += 400;
+        if (line.startsWith("EMERGENCY:")) elapsed += 400;
+        timers.push(window.setTimeout(() => {
+            visibleLines.value = index + 1;
+            nextTick(() => {
+                if (logViewport.value) logViewport.value.scrollTop = logViewport.value.scrollHeight;
+            });
+        }, elapsed));
+        if (!line.startsWith("LOW STOCK ALERT:") && !line.startsWith("EMERGENCY:")) elapsed += 40;
+    });
+};
+
+onMounted(replayLog);
+onUnmounted(() => timers.splice(0).forEach((timer) => window.clearTimeout(timer)));
+</script>
+
+<style scoped>
+.hero-shell { display: flex; flex-direction: column; gap: 3rem; padding: 5.5rem 0 2rem; }
+.hero-copy { max-width: 56rem; }
+.eyebrow { color: var(--accent-secondary); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+h1 { font-family: var(--font-display); font-size: clamp(2.4rem, 7vw, 3.5rem); line-height: 1.05; letter-spacing: -.06em; max-width: 52rem; }
+h1 em { font-family: var(--font-accent); font-weight: 400; letter-spacing: -.04em; }
+.hero-subhead { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; max-width: 43rem; margin-top: 1.75rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.bracket-button { display: inline-flex; gap: .8rem; align-items: center; min-height: 1.75rem; padding: .55rem 1rem; color: var(--text-primary); font-size: .8rem; text-decoration: none; background-color: var(--bg-elevated); }
+.bracket-button.primary { background-color: var(--bg-elevated); color: var(--text-primary); }
+.bracket-button span { color: var(--accent-secondary); }
+.trace-panel { background: var(--bg-inset); border: 1px solid var(--border-default); padding: 1.25rem; height: 24rem; min-height: 0; display: flex; flex-direction: column; font-family: var(--font-display); }
+.trace-header { color: var(--text-tertiary); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: .5rem; border-bottom: 1px solid var(--border-default); padding-bottom: .8rem; }
+.status-dot { width: .45rem; height: .45rem; background: var(--success); display: inline-block; border-radius: 50%; }
+.trace-live { margin-left: auto; color: var(--success); }
+.trace-log { color: var(--text-primary); font-size: .72rem; line-height: 1.55; padding-top: 1rem; flex: 1; min-height: 0; overflow: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.trace-log::-webkit-scrollbar { display: none; }
+.log-line { min-height: 1.55em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.log-muted { color: var(--text-tertiary); }
+.log-warning { color: var(--accent-secondary); }
+.log-emergency { color: var(--accent-primary); font-weight: 700; }
+.terminal-cursor { display: block; position: relative; width: .6rem; height: 1.55em; min-height: 1.55em; margin-top: .1rem; }
+.terminal-cursor::after { content: ""; position: absolute; left: 0; bottom: .16em; width: .6rem; height: 2px; background: var(--accent-primary); }.terminal-cursor.is-blinking { animation: blink 1s steps(2, end) infinite; }
+.trace-footer { flex-shrink: 0; color: var(--accent-secondary); font-size: .72rem; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--border-default); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.trace-footer button { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid var(--border-default); color: var(--text-secondary); background: transparent; padding: .25rem .5rem; font: inherit; cursor: pointer; }
+.trace-footer button:hover { border-color: var(--accent-primary); color: var(--text-primary); }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .terminal-cursor.is-blinking { animation: none; } }
+@media (min-width: 768px) { .hero-shell { padding-top: 7rem; } .trace-panel { padding: 1.25rem; height: 26rem; } .trace-log { font-size: .78rem; } }
 </style>

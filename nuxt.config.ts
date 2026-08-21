@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   fontawesome: {
     icons: {
       regular: ["clone"],
-      solid: ["pen", "check"],
+      solid: ["pen", "check", "rotate-right"],
     },
   },
   app: {
