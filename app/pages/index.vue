@@ -41,10 +41,10 @@ const features = [
 ];
 
 useSeoMeta({
-    title: "Incremental execution for systems engineers",
-    ogTitle: "Incremental execution for systems engineers",
-    description: "Slung reacts to changing facts instead of running fixed steps. An incremental execution engine for orchestration.",
-    ogDescription: "Slung reacts to changing facts instead of running fixed steps. An incremental execution engine for orchestration.",
+    title: "Incremental Execution for Complex Task Orchestration",
+    ogTitle: "Incremental Execution for Complex Task Orchestration",
+    description: "Slung reacts to changing facts instead of running fixed steps. Model your system as entities and components, write rules that react when they change, and let the runtime handle what computes.",
+    ogDescription: "Slung reacts to changing facts instead of running fixed steps. Model your system as entities and components, write rules that react when they change, and let the runtime handle what computes.",
     twitterCard: "summary_large_image",
     twitterSite: "@slunghq",
 });
