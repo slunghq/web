@@ -2,13 +2,13 @@
     <div class="pt-2 my-6 text-sm">
         <div
             v-if="$props.filename"
-            class="px-4 py-0.5 text-[#4e0d0b] no-select font-semibold font-mono border border-b-0! border-[#4e0d0b]/40 w-fit"
+            class="px-4 py-0.5 text-[var(--accent-primary)] no-select font-semibold font-mono border border-b-0! border-[var(--border-default)] w-fit"
         >
             {{ $props.filename }}
         </div>
         <pre
             :class="$props.class"
-            class="p-5 pl-2! pt-2 border border-[#4e0d0b]/40 overflow-x-auto"
+            class="p-5 pl-2! pt-2 border border-[var(--border-default)] overflow-x-auto"
         ><slot /></pre>
     </div>
 </template>
@@ -65,15 +65,15 @@ pre code .line {
     left: 0;
     width: 3em;
     text-align: right;
-    color: #6b7280;
+    color: var(--text-tertiary);
     user-select: none;
     padding-right: 1em;
-    border-right: 1px solid #e5e7eb;
+    border-right: 1px solid var(--border-default);
     font-variant-numeric: tabular-nums;
 }
 
 .line:hover {
-    @apply bg-[#fcf4f0];
+    @apply bg-[var(--bg-elevated)];
 }
 
 .language-bash,
@@ -88,7 +88,7 @@ pre code .line {
         width: 2em;
     }
     .line:hover {
-        @apply bg-[#fffdf6];
+        @apply bg-[var(--bg-inset)];
     }
     .line {
         padding-left: 2em;
@@ -97,7 +97,7 @@ pre code .line {
 
 pre code .line *::-moz-selection,
 pre code .line *::selection {
-    background-color: #dcb !important;
+    background-color: var(--accent-primary) !important;
     color: var(--bg-color) !important;
 }
 </style>

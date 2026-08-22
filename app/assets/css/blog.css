@@ -47,7 +47,7 @@
     display: inline-block;
     isolation: isolate;
     text-decoration: none;
-    @apply text-[#4e0d0b] font-semibold cursor-pointer;
+    @apply text-[var(--accent-primary)] font-semibold cursor-pointer;
   }
 
   a::before,
@@ -62,13 +62,13 @@
   }
 
   a::before {
-    background-color: #eeccbb;
+    background-color: var(--border-default);
     width: 100%;
   }
 
   a::after {
     width: 0;
-    background-color: #4e0d0b;
+    background-color: var(--accent-primary);
   }
 
   a:hover::after {
@@ -78,7 +78,7 @@
   a span {
     position: relative;
     z-index: 1;
-    background: linear-gradient(to right, #ffffff 50%, #4e0d0b 50%);
+    background: linear-gradient(to right, var(--text-primary) 50%, var(--accent-primary) 50%);
     background-size: 200% 100%;
     background-position: 100% 0;
     -webkit-background-clip: text;
@@ -125,24 +125,24 @@
   }
 
   blockquote {
-    @apply border-l-4 border-[#ff5349] bg-[#fcf4f0] pl-6 py-3 my-8 italic p-6;
+    @apply border-l-4 border-[var(--accent-primary)] bg-[var(--bg-elevated)] pl-6 py-3 my-8 italic p-6;
   }
 
   hr {
-    @apply my-12 border-[#4e0d0b];
+    @apply my-12 border-[var(--border-default)];
   }
 
   table {
     @apply w-full border-collapse my-8 overflow-hidden;
     th,
     td {
-      @apply border border-[#4e0d0b]/20 p-3 text-sm;
+      @apply border border-[var(--border-default)] p-3 text-sm;
     }
     th {
-      @apply bg-[#fcf4f0] font-bold;
+      @apply bg-[var(--bg-elevated)] font-bold;
     }
     tr:nth-child(even) {
-      @apply bg-[#faf8f4];
+      @apply bg-[var(--bg-inset)];
     }
   }
 

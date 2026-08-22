@@ -20,13 +20,13 @@
                     <span
                         v-for="tag in post.tags.slice(0, 2)"
                         :key="tag"
-                        class="px-2 py-0.5 text-xs bg-[#eae7e3] text-[#001917] uppercase backdrop-blur-sm font-[Intel]"
+                        class="px-2 py-0.5 text-xs bg-[var(--bg-elevated)] text-[var(--text-primary)] uppercase backdrop-blur-sm font-[Intel]"
                     >
                         {{ tag }}
                     </span>
                     <span
                         v-if="post.tags.length > 2"
-                        class="px-2 py-0.5 text-xs bg-[#eae7e3] text-[#001917] uppercase backdrop-blur-sm font-[Intel]"
+                        class="px-2 py-0.5 text-xs bg-[var(--bg-elevated)] text-[var(--text-primary)] uppercase backdrop-blur-sm font-[Intel]"
                     >
                         +{{ post.tags.length - 2 }}
                     </span>
@@ -36,7 +36,7 @@
         <div class="pt-4 h-fit">
             <span
                 v-if="post.date"
-                class="inline-block mb-3 pb-1 text-[#4e0d0b]"
+                class="inline-block mb-3 pb-1 text-[var(--accent-secondary)]"
             >
                 {{ formatDate(post.date) }} -
                 <span v-for="author in post.authors">

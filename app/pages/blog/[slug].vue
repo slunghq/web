@@ -14,11 +14,11 @@ const { data: post } = await useAsyncData(`blog-${slug}`, () => {
 });
 
 useSeoMeta({
-    title: `${post.value.title} | Blogs & Insights`,
-    ogTitle: `${post.value.title} | Blog & Insights`,
-    description: post.value.description || "Slung Blog Post",
-    ogDescription: post.value.description || "Slung Blog Post",
-    ogImage: post.value.hero || "/default.png",
+    title: `${post.value?.title || "Blog"} | Blogs & Insights`,
+    ogTitle: `${post.value?.title || "Blog"} | Blog & Insights`,
+    description: post.value?.description || "Slung Blog Post",
+    ogDescription: post.value?.description || "Slung Blog Post",
+    ogImage: post.value?.hero || "/default.png",
     twitterCard: "summary_large_image",
     twitterSite: "@slunghq",
 });
@@ -27,9 +27,9 @@ useSeoMeta({
 <template>
     <div class="w-full py-8 px-0 flex flex-col gap-8">
         <article class="w-full">
-            <div class="mb-8 text-[#886655] text-xs">
-                <span class="mr-3" v-if="post.date">{{
-                    formatDate(post.date)
+            <div class="mb-8 text-[var(--accent-secondary)] text-xs">
+                <span class="mr-3" v-if="post?.date">{{
+                    formatDate(post.date || "")
                 }}</span>
                 /
                 <nuxt-link
@@ -47,7 +47,7 @@ useSeoMeta({
                         {{ post.title }}
                     </h1>
 
-                    <h2 class="text-sm text-[#886655] mb-8">
+                    <h2 class="text-sm text-[var(--accent-secondary)] mb-8">
                         {{ post.description }}
                     </h2>
 
@@ -68,7 +68,7 @@ useSeoMeta({
 
                 <!-- Post footer -->
                 <div
-                    class="mt-16 pt-8 border-t border-[#4e0d0b]/20 flex justify-between flex-col sm:flex-row gap-4"
+                    class="mt-16 pt-8 border-t border-[var(--border-default)] flex justify-between flex-col sm:flex-row gap-4"
                 >
                     <nuxt-link
                         to="/blog"
