@@ -10,7 +10,7 @@
                 same principle behind incremental builds, applied to orchestration.
             </p>
             <div class="hero-actions uppercase ">
-                <NuxtLink id="navigation-items" data-shortcut="l" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live <kbd class="keycap">L</kbd></span></NuxtLink>
+                <NuxtLink id="navigation-items" data-shortcut="l" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live <kbd class="keycap font-normal">L</kbd></span></NuxtLink>
                 <NuxtLink id="navigation-items" data-shortcut="r" class="bracket-button link-vertical" to="/docs"><span class="text-(--text-primary)!">read the architecture <kbd class="keycap">R</kbd></span></NuxtLink>
             </div>
         </div>
@@ -156,5 +156,5 @@ h1 em { font-family: var(--font-accent); font-weight: 400; letter-spacing: -.04e
 .trace-footer button:hover { border-color: var(--accent-primary); color: var(--text-primary); }
 @keyframes blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .terminal-cursor.is-blinking { animation: none; } }
-@media (min-width: 768px) { .hero-shell { padding-top: 7rem; } .trace-panel { padding: 1.25rem; height: 26rem; } .trace-log { font-size: .78rem; } }
+@media (min-width: 768px) { .hero-shell { padding-top: 4rem; } .trace-panel { padding: 1.25rem; height: 26rem; } .trace-log { font-size: .78rem; } }
 </style>

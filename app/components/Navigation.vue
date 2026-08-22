@@ -91,9 +91,9 @@
                 </Transition>
                 <button
                     @click="toggleMenuState"
-                    class="h-7 w-[114px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-dim)] gap-4 relative flex justify-center items-center"
+                    class="h-7 w-[114px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-inset)] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
-                    :class="{ 'bg-[var(--accent-primary-dim)]!': menuOpen }"
+                    :class="{ 'bg-[var(--accent-primary-inset)]!': menuOpen }"
                 >
                     <svg
                         class="fill-[var(--text-primary)] shrink-0 mr-2"
