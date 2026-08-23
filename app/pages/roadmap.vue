@@ -14,8 +14,7 @@
                     to="https://github.com/slunghq/slung"
                 >
                     <span class="font-semibold">GitHub</span>
-                </nuxt-link>
-                .
+                </nuxt-link>.
             </p>
         </div>
         <div class="flex flex-col gap-6 w-full">
@@ -29,7 +28,7 @@
                     <h2 class="font-semibold flex-1 text-lg">{{ i.title }}</h2>
                     <div class="font-[Intel] text-xs flex-shrink-0">
                         <span
-                            class="px-2 py-1 text-xs"
+                            class="px-2 py-1 text-xs capitalize"
                             :class="{
                                 'status-planned': i.status === 'planned',
                                 'status-done': i.status === 'done',
@@ -126,22 +125,22 @@ const items = [
 
 <style scoped>
 .status-planned {
-    background-color: var(--bg-inset);
+    border: 1px solid #f2efe988;
     color: var(--text-primary);
 }
 
 .status-done {
-    background-color: #94ec94;
-    color: var(--bg-primary);
+    border: 1px solid #94ec9488;
+    color: var(--text-primary);
 }
 
 .status-in-progress {
-    background-color: #ecdc94;
-    color: var(--bg-primary);
+    border: 1px solid #ecdc9488;
+    color: var(--text-primary);
 }
 
 .status-deferred {
-    background-color: #ea8888;
-    color: var(--bg-primary);
+    border: 1px solid #ea888888;
+    color: var(--text-primary);
 }
 </style>

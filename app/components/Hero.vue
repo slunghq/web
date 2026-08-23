@@ -138,7 +138,6 @@ h1 em { font-family: var(--font-accent); font-weight: 400; letter-spacing: -.04e
 .bracket-button { display: inline-flex; gap: .8rem; align-items: center; min-height: 1.75rem; padding: .55rem 1rem; color: var(--text-primary); font-size: .8rem; text-decoration: none; background-color: var(--bg-elevated); }
 .bracket-button.primary { background-color: var(--bg-elevated); color: var(--text-primary); }
 .bracket-button span { color: var(--accent-secondary); }
-.keycap { @apply size-4 shrink-0 rounded-xs items-center justify-center gap-0.5 text-[.6875rem] border border-gray-500/20 bg-gray-50/50 sm:inline-flex hidden leading-none border-white/20! bg-white/10!; }
 .trace-panel { background: var(--bg-inset); border: 1px solid var(--border-default); padding: 1.25rem; height: 24rem; min-height: 0; display: flex; flex-direction: column; font-family: var(--font-display); }
 .trace-header { color: var(--text-tertiary); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: .5rem; border-bottom: 1px solid var(--border-default); padding-bottom: .8rem; }
 .status-dot { width: .45rem; height: .45rem; background: var(--success); display: inline-block; border-radius: 50%; }
@@ -157,4 +156,10 @@ h1 em { font-family: var(--font-accent); font-weight: 400; letter-spacing: -.04e
 @keyframes blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .terminal-cursor.is-blinking { animation: none; } }
 @media (min-width: 768px) { .hero-shell { padding-top: 4rem; } .trace-panel { padding: 1.25rem; height: 26rem; } .trace-log { font-size: .78rem; } }
+</style>
+
+<style>
+@import "tailwindcss";
+
+.keycap { @apply size-4 shrink-0 rounded-xs items-center justify-center gap-0.5 text-[.6875rem] border border-gray-500/20 bg-gray-50/50 sm:inline-flex hidden leading-none border-white/20! bg-white/10!; }
 </style>
