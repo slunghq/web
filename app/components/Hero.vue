@@ -11,7 +11,7 @@
             </p>
             <div class="hero-actions uppercase ">
                 <NuxtLink id="navigation-items" data-shortcut="l" class="bracket-button primary link-vertical font-bold" to="https://cal.com/ewanretor/slung-live" target="_blank"><span class="text-(--text-primary)!">see it live <kbd class="keycap font-normal">L</kbd></span></NuxtLink>
-                <NuxtLink id="navigation-items" data-shortcut="r" class="bracket-button link-vertical" to="/docs"><span class="text-(--text-primary)!">read the architecture <kbd class="keycap">R</kbd></span></NuxtLink>
+                <NuxtLink id="navigation-items" data-shortcut="r" class="bracket-button link-vertical" to="/docs"><span class="text-(--text-primary)!">read the docs <kbd class="keycap">D</kbd></span></NuxtLink>
             </div>
         </div>
         <div class="trace-panel" aria-label="Slung runtime log">
@@ -86,7 +86,7 @@ const handleShortcut = (event: KeyboardEvent) => {
     }
     if (event.key.toLowerCase() === "r") {
         event.preventDefault();
-        document.querySelector<HTMLElement>('[data-shortcut="r"]')?.click();
+        document.querySelector<HTMLElement>('[data-shortcut="d"]')?.click();
     }
 };
 
