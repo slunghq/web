@@ -4,18 +4,22 @@ index: 2
 navGroup: Core Concepts
 navGroupIndex: 2
 metaTitle: Components
-description: Typed fact payloads and active memory.
+description: Model typed facts attached to entities.
 ---
 
-Components are typed algebraic payloads attached to entities. They are the facts the engine reasons about. Every write to a component is timestamped, causally tagged, and stored in the LWW (last-write-wins) active memory store.
+A component is a typed fact about an entity. Components are the values that sources produce, rules read, and rules derive.
 
-## Declaring a component
+Examples include:
 
-The `#[component]` macro declares the type and emits the descriptor export the host reads at load time.
++ `Temperature { value, unit, timestamp }`
++ `OrderStatus::Backlogged { reason, since }`
++ `PaymentState::Authorized { provider_id }`
 
-**Struct components** carry named fields:
+## Component types
 
-```rust [src/main.rs]
+Struct components carry named fields:
+
+```rust
 #[component]
 struct Temperature {
     value: f32,
@@ -24,36 +28,48 @@ struct Temperature {
 }
 ```
 
-**Enum components** carry typed variants:
+Enum components represent a finite set of states and can carry data:
 
-```rust [src/main.rs]
+```rust
 #[component]
 enum SensorStatus {
-    Ok { temp: f32, humidity: f32, since: u64 },
+    Ok { temperature: f32, since: u64 },
     Alert { reason: String, since: u64 },
 }
 ```
 
+The SDK emits a component descriptor. The host uses it to understand the type at the Wasm serialization boundary.
+
+## Entities and components
+
+A source normally creates a static entity. Its declared component fields are attached to that entity:
+
+```text
+SensorData entity
+  ├── Temperature component
+  ├── Humidity component
+  └── SensorStatus component
+```
+
+Dynamic entity mapping is part of the descriptor design, but should be treated as evolving until it is covered by an end-to-end test in the host.
+
 ## Reading and writing
 
-Rules read and write components through `RuleContext`. The host handles all serialization across the Wasm boundary — no raw pointers or JSON in rule code.
+Rules access components through their rule context:
 
-```rust [src/main.rs]
+```rust
 #[rule(watch = [SensorData::temperature], priority = 10)]
 fn on_temperature(ctx: &RuleContext) -> Result<()> {
-    // read a component from active memory
-    let temp = ctx.get::<Temperature>(SensorData::temperature)?;
+    let temperature = ctx.get::<Temperature>(SensorData::temperature)?;
 
-    // derive a new fact and write it back
-    let status = if temp.value > 40.0 {
+    let status = if temperature.value > 40.0 {
         SensorStatus::Alert {
-            reason: format!("critical: {:.1}°{}", temp.value, temp.unit),
+            reason: "temperature is high".to_string(),
             since: ctx.now(),
         }
     } else {
         SensorStatus::Ok {
-            temp: temp.value,
-            humidity: 0.0,
+            temperature: temperature.value,
             since: ctx.now(),
         }
     };
@@ -63,18 +79,22 @@ fn on_temperature(ctx: &RuleContext) -> Result<()> {
 }
 ```
 
-`ctx.set` writes the component back to active memory. The host stamps a causal tag and signals dirty — which can trigger further rules in the same inference cycle.
+A successful `set` updates active memory and signals the component as dirty. That signal can wake downstream rules.
 
 ## Active memory
 
-Active memory is an LWW (last-write-wins) CRDT store. Every component write carries:
+The current host uses an in-memory last-write-wins registry. Each entry contains:
 
-- **EntityId** — which entity this fact belongs to
-- **ComponentId** — which component type
-- **CausalTag** — what caused the write (component, entity, node, timestamp)
++ The serialized component value
++ An HLC timestamp
++ A causal tag identifying the originating component/entity/node
 
-The causal tag is used by the inference loop for inhibition — preventing conflicting rules from firing based on what triggered the change.
+LWW comparison gives competing writes a total timestamp order. It does not by itself provide durable storage or distributed consensus.
 
-## Lifecycle
+SQLite WAL storage is being added as the node-local durability layer. Until that work is complete, active memory should be treated as process-local state.
 
-Components have no explicit lifecycle. They exist as long as the entity exists. When a module is unloaded the host retires all `EntityId` and `ComponentId` values minted by that module and removes their entries from active memory.
+## Fact changes
+
+A component is not dirty merely because a rule reads it. It becomes dirty when an accepted source or rule write signals it. The capability graph maps that dirty `(entity, component)` pair to candidate rules.
+
+The runtime does not yet promise transactional rule side effects. Rules that interact with external systems should use idempotency keys and an outbox once those facilities are available.

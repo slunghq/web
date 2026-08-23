@@ -4,73 +4,101 @@ index: 3
 navGroup: Core Concepts
 navGroupIndex: 2
 metaTitle: Rules
-description: How rules watch components and fire.
+description: React to changed facts and produce derived facts.
 ---
 
-Rules are functions that fire when the components they watch become dirty. The engine dispatches rules automatically — no polling, no explicit triggers.
+Rules are Wasm functions that run when watched components become dirty. They read current component state and may write derived components.
 
 ## Declaring a rule
 
-```rust [src/main.rs]
+```rust
 #[rule(
     watch = [SensorData::temperature, SensorData::humidity],
     priority = 5,
 )]
 fn on_sensor_update(ctx: &RuleContext) -> Result<()> {
-    let temp = ctx.get::<Temperature>(SensorData::temperature)?;
+    let temperature = ctx.get::<Temperature>(SensorData::temperature)?;
     let humidity = ctx.get::<Humidity>(SensorData::humidity)?;
 
-    ctx.set(SensorData::status, SensorStatus::Ok {
-        temp: temp.value,
-        humidity: humidity.value,
-        since: ctx.now(),
-    })?;
+    ctx.set(
+        SensorData::status,
+        SensorStatus::Ok {
+            temperature: temperature.value,
+            since: ctx.now(),
+        },
+    )?;
 
     Ok(())
 }
 ```
 
-`watch` is the list of components that will wake this rule. The rule fires once per dirty cycle for each entity that has at least one watched component go dirty.
+`watch` declares which components can wake the rule. The host registers the watch list when it loads the module.
 
-## Priority
+## Inference loop
 
-Rules with a higher `priority` value fire first within a cycle. When multiple rules watch the same component, priority determines execution order. Rules at the same priority level are unordered relative to each other.
+The current loop is forward-chaining and dirty-driven:
 
-```rust [src/main.rs]
-// fires before on_sensor_update (priority 5)
-#[rule(watch = [SensorData::temperature], priority = 10)]
-fn on_temperature_update(ctx: &RuleContext) -> Result<()> { ... }
+```text
+dirty component
+  > capability graph lookup
+  > candidate rules
+  > priority ordering
+  > Wasm dispatch
+  > rule writes
+  > new dirty components
 ```
 
-## The inference loop
+A full run continues until no dirty work is observed or the configured maximum depth is reached.
 
-On each cycle the engine:
+## Ordering
 
-1. Dequeues a dirty entry `(EntityId, ComponentId)`
-2. Looks up affected rules via the capability graph — O(1) hash map lookup
-3. Filters rules by claim availability, orders by priority
-4. Checks causal tags — inhibits conflicting rules based on what caused the change
-5. Dispatches rules to the Wasm runtime
-6. Rule writes re-enter active memory and can extend the current cycle
-7. Cycle terminates at stable state or max depth
+Higher numeric priority is dispatched first among candidates for the same dirty entry.
+
+A deterministic tie-break rule for equal priorities is not yet part of the runtime contract. Until it is implemented and tested, do not rely on the relative order of equal-priority rules.
+
+LWW/HLC timestamps resolve competing fact writes. They are separate from rule dispatch order: the rule that runs first is not automatically the write that wins.
 
 ## Claims
 
-Claims prevent duplicate rule execution across concurrent workers. A claim is an atomic CAS on a `(RuleId, EntityId)` register. Within a node this is a cheap in-memory operation. A rule that cannot acquire its claim is skipped for that cycle — another worker holds it.
+The runtime has an in-memory claim register keyed by `(RuleId, EntityId)`. Claims prevent simultaneous duplicate dispatch across workers. Claim lifetime and per-cycle semantics are still being hardened; the current single-worker path should be treated as the reference behavior.
+
+## Cascades and loops
+
+A rule can create a cascade:
+
+```text
+Temperature changed
+  > classify_temperature
+  > SensorStatus changed
+  > notify_operator
+```
+
+A loop can also be created:
+
+```text
+A changed
+  > rule_ab writes B
+  > rule_ba writes A
+  > ...
+```
+
+The loop has a maximum-depth safety limit. Reaching the limit halts further evaluation for that run. A full causal execution trace and graph inspection API are planned as part of the OpenTelemetry and diagnostics work.
+
+Rules should avoid unconditional writes. Compare the current value before writing, and make external effects idempotent.
 
 ## Rule context
 
-`RuleContext` is the only interface rules have to the engine:
+The SDK context is intended to provide:
 
-| Method | Description |
-|--------|-------------|
-| `ctx.get::<T>(Source::component)` | Read a component from active memory |
-| `ctx.set(Source::component, value)` | Write a component to active memory |
-| `ctx.now()` | Current logical timestamp |
-| `ctx.yield_now()` | Yield execution back to the scheduler |
+| Operation | Purpose |
+|---|---|
+| `ctx.get::<T>(component)` | Read current component state |
+| `ctx.set(component, value)` | Write a derived component |
+| `ctx.now()` | Obtain logical runtime time |
+| `ctx.yield_now()` | Yield execution when supported |
 
-Rules have no access to raw entity IDs, raw memory, or the host ABI directly. All reads and writes go through the context and cross the Wasm boundary via the host's serialization layer.
+Rules do not directly access transport sockets or the host's internal state.
 
-## Cycle detection
+## Errors
 
-Before a module goes live the host walks the capability graph looking for rules that watch components they also write to. A rule that creates an unconditional write loop is flagged at registration time, not discovered at runtime.
+A mapper or rule error is reported by the host and does not constitute a durable retry contract yet. Retry policy, failure visibility, and durable pending work are part of the storage, connector, and observability work in progress.

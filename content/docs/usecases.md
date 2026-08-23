@@ -4,31 +4,67 @@ index: 3
 navGroup: Overview
 navGroupIndex: 1
 metaTitle: Use cases
-description: Where Slung fits.
+description: Where Slung fits and where it does not.
 ---
 
-Slung is a good fit anywhere you have facts changing asynchronously and decisions that need to adapt in real time — without the overhead of orchestrating explicit step sequences.
+Slung is for systems where the important question is not “which step runs next?” but “what is true now, and what computation should that change trigger?”
 
-## Real-time alerting and monitoring
+## Good fits
 
-Sensor readings, service metrics, or infrastructure events arrive as component updates. Rules fire immediately when thresholds are crossed, derived facts are computed, and downstream rules react — all within a single inference cycle, without polling.
+### Reactive state derivation
 
-## Event-driven automation
+An incoming event updates a fact. Rules derive status, eligibility, risk, routing, or other facts from the current state of an entity.
 
-Replace chains of webhooks and queued jobs with rules that watch the exact components that signal readiness. When all the facts a rule needs are present and consistent, it fires. No explicit coordination between steps.
+```text
+raw event
+  > current state
+  > derived status
+  > downstream decision
+```
 
-## Stream processing pipelines
+### Monitoring and alerting
 
-Multiple sources (WebSocket, NATS, Kafka, Redis) feed data into a shared fact space. Rules compose naturally — one rule's output becomes another's input. The capability graph tracks these dependencies at registration time, not at runtime.
+Sensor readings and service signals become components. Rules can derive thresholds, health states, and notifications as facts change.
 
-## Edge compute
+### Local edge decisions
 
-Slung ships as a single binary with no runtime dependencies. Deploy it to edge nodes, container sidecars, or IoT gateways where data lives. Modules are portable Wasm binaries — the same rule set runs anywhere the host runs.
+The runtime is a single native binary and rule modules are Wasm binaries. This makes the core suitable for local decisions near the data source, subject to the current alpha limitations around durability and delivery.
 
-## Stateful rule engines
+### Event-fed entity state
 
-Facts persist in active memory across events. Rules can read prior state, compare it against new arrivals, and derive conclusions without re-querying the source. The LWW store provides a consistent, causally-tagged snapshot of the world.
+Several event types can update different components of one entity. A rule can read the current combination without manually wiring a chain of callbacks.
 
-## What it is not
+## Current ingress
 
-Slung is not a general-purpose workflow engine. It does not model sequential steps, retries, or durable sagas. If your workload is a predictable linear process with explicit failure handling, a workflow engine is probably the right tool. Slung is for workloads where the order of decisions is determined by the facts, not prescribed in advance.
+Today, the practical ingress paths are:
+
++ HTTP POST webhooks
++ WebSocket text frames
++ WebSocket binary frames
+
+The current runtime does not yet provide production queue semantics, outbound HTTP/WebSocket clients, or fully implemented NATS, Kafka, Postgres, and Redis connectors.
+
+## Poor fits today
+
+Slung is not currently a replacement for:
+
++ A durable workflow engine with built-in retries and compensation
++ A lossless message broker
++ A general-purpose HTTP API server
++ A distributed consensus store
++ A complete stream processor with windows and joins
++ A job scheduler with durable task history
+
+Those systems can complement Slung. For example, a queue can provide durable delivery while Slung handles fact derivation and reactive decisions.
+
+## Choosing Slung
+
+Slung is a good candidate when:
+
++ Facts change asynchronously
++ Rules should react to current entity state
++ Derived facts naturally form cascades
++ You want rule modules isolated behind Wasm
++ A lightweight host is valuable
+
+Wait until the durability and delivery work is complete when you need acknowledged, lossless ingestion or guaranteed replay of in-flight work.

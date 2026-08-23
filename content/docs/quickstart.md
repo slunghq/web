@@ -4,55 +4,92 @@ index: 2
 navGroup: Overview
 navGroupIndex: 1
 metaTitle: Quickstart
-description: Write and run your first Slung module.
+description: Write a Slung module, compile it to Wasm, and run it.
 ---
 
-Slung modules are Wasm binaries. You write rules in Rust using the SDK macros, compile to Wasm, and point the host at the binary. The host discovers everything it needs from the module's exports — no config files, no manual registration.
+This guide builds a small sensor module from scratch. The module accepts JSON over WebSocket, maps it into typed components, and derives a sensor status when the temperature changes.
 
-## 1. Install Slung
+You need:
 
-Grab a binary from the [releases page](https://github.com/slunghq/slung/releases) and place it in your `$PATH`.
++ [Rust](https://www.rust-lang.org/tools/install)
++ The `wasm32-wasip1` Rust target
++ [Zig](https://ziglang.org/) if building the Slung host from source
++ A WebSocket client such as [`wscat`](https://github.com/websockets/wscat)
 
-To build from source you need [Zig](https://ziglang.org/) and [Nix](https://nixos.org/):
+## 1. Build the host
+
+From the Slung repository:
 
 ```bash
-nix develop -c zig build --release=fast
-cp ./zig-out/bin/slung .
+zig build
 ```
 
-## 2. Write a module
+This produces the host binary at `zig-out/bin/slung`.
 
-Create a new Rust project and add the SDK:
+## 2. Create a module
 
-```toml [Cargo.toml]
+Create a Rust binary crate outside the Slung repository:
+
+```bash
+cargo new sensor-module
+cd sensor-module
+rustup target add wasm32-wasip1
+```
+
+Add the SDK and serialization dependencies to `Cargo.toml`:
+
+```toml
+[package]
+name = "sensor-module"
+version = "0.1.0"
+edition = "2021"
+
 [dependencies]
-slung = "0.1.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+slung = "0.2.1"
 
 [profile.release]
 opt-level = "z"
 lto = true
 ```
 
-A module has three parts: **sources**, **components**, and **rules**.
+For local SDK development, replace the published dependency with a path to the SDK checkout:
 
-```rust [src/main.rs]
+```toml
+slung = { path = "../slung/sdks/pipeline/rust" }
+```
+
+## 3. Declare a source
+
+Replace `src/main.rs` with:
+
+```rust
 use slung::prelude::*;
 
-// Source — declares the entity and which connector to use.
-// Each field is a component this source produces.
 #[source(builtin = "ws")]
 struct SensorData {
+    // This becomes the source route component used by the host.
+    #[config(value = "sensor-data")]
+    path: &'static str,
+
     #[component(map = parse_temperature)]
     temperature: Temperature,
-
-    #[component(map = parse_humidity)]
-    humidity: Humidity,
 
     #[component]
     status: SensorStatus,
 }
+```
 
-// Components — typed fact payloads.
+A source declaration describes an input and the components it can produce. The `#[source]` macro emits a descriptor that the host discovers when it loads the Wasm module.
+
+The `#[config]` field is source metadata. It does not become a component. Each `#[component]` field is a fact associated with the source entity.
+
+## 4. Define components
+
+Add the types produced by the source and derived by the rule:
+
+```rust
 #[component]
 struct Temperature {
     value: f32,
@@ -61,52 +98,52 @@ struct Temperature {
 }
 
 #[component]
-struct Humidity {
-    value: f32,
-    unit: String,
-    ts: u64,
-}
-
-#[component]
 enum SensorStatus {
-    Ok { temp: f32, humidity: f32, since: u64 },
+    Ok { temperature: f32, since: u64 },
     Alert { reason: String, since: u64 },
 }
+```
 
-// Mappers — translate raw WebSocket bytes into typed component values.
+`#[component]` emits type metadata for the host. Structs contain named fields; enums represent named states and can carry data.
+
+## 5. Write a mapper
+
+The mapper turns raw transport bytes into a typed component value:
+
+```rust
 fn parse_temperature(raw: &[u8]) -> Result<Temperature> {
     let json: serde_json::Value = serde_json::from_slice(raw)?;
+
     Ok(Temperature {
         value: json["temperature"].as_f64().unwrap_or(0.0) as f32,
         unit: json["unit"].as_str().unwrap_or("C").to_string(),
         ts: json["ts"].as_u64().unwrap_or(0),
     })
 }
+```
 
-fn parse_humidity(raw: &[u8]) -> Result<Humidity> {
-    let json: serde_json::Value = serde_json::from_slice(raw)?;
-    Ok(Humidity {
-        value: json["humidity"].as_f64().unwrap_or(0.0) as f32,
-        unit: "%".to_string(),
-        ts: json["ts"].as_u64().unwrap_or(0),
-    })
-}
+The host calls this mapper for incoming payloads. If the mapper returns an error, that component is not written.
 
-// Rules — fire when watched components go dirty.
-#[rule(watch = [SensorData::temperature, SensorData::humidity], priority = 5)]
-fn on_sensor_update(ctx: &RuleContext) -> Result<()> {
-    let temp = ctx.get::<Temperature>(SensorData::temperature)?;
-    let humidity = ctx.get::<Humidity>(SensorData::humidity)?;
+## 6. Write a rule
 
-    let status = if temp.value > 40.0 {
+Rules watch source components and can write derived components:
+
+```rust
+#[rule(watch = [SensorData::temperature], priority = 10)]
+fn on_temperature_update(ctx: &RuleContext) -> Result<()> {
+    let temperature = ctx.get::<Temperature>(SensorData::temperature)?;
+
+    let status = if temperature.value > 40.0 {
         SensorStatus::Alert {
-            reason: format!("temperature critical: {:.1}°{}", temp.value, temp.unit),
+            reason: format!(
+                "temperature is high: {:.1}°{}",
+                temperature.value, temperature.unit
+            ),
             since: ctx.now(),
         }
     } else {
         SensorStatus::Ok {
-            temp: temp.value,
-            humidity: humidity.value,
+            temperature: temperature.value,
             since: ctx.now(),
         }
     };
@@ -118,33 +155,99 @@ fn on_sensor_update(ctx: &RuleContext) -> Result<()> {
 fn main() {}
 ```
 
-## 3. Compile to Wasm
+`watch` is the list of components that can wake the rule. `priority` orders candidate rules for the same dirty entry; equal-priority ordering is not currently guaranteed.
+
+`ctx.get` reads the current fact. `ctx.set` writes a derived fact, signals it as dirty, and may wake another rule.
+
+## 7. Compile the module
+
+From the module directory:
 
 ```bash
 cargo build --target wasm32-wasip1 --release
 ```
 
-## 4. Run the host
+The module is now at:
+
+```text
+target/wasm32-wasip1/release/sensor-module.wasm
+```
+
+The host does not need a separate registration file. It discovers source, component, mapper, and rule descriptors from the module's Wasm exports.
+
+## 8. Run the module
+
+From the Slung repository, point the host at the compiled module:
 
 ```bash
-slung run \
-  --module ./target/wasm32-wasip1/release/my_module.wasm \
+./slung run \
+  --module /absolute/path/to/sensor-module/target/wasm32-wasip1/release/sensor-module.wasm \
   --namespace default \
   --node-id node-1 \
-  --ws-port 2073
+  --ws-port 2073 \
+  --http-port 2074
 ```
 
-The host scans the module's exports, opens the WebSocket gateway on port `2073`, and registers the ingress route at `/<namespace>/<source>/<component>`. Rules start firing as soon as data arrives.
+The current host opens:
 
-## 5. Send data
++ WebSocket gateway: `0.0.0.0:2073`
++ HTTP webhook listener: `0.0.0.0:2074`
 
-Stream JSON frames to the WebSocket gateway:
+The source route is:
+
+```text
+/<namespace>/<source>
+```
+
+For this module:
+
+```text
+/default/SensorData
+```
+
+## 9. Send an event
+
+Connect with `wscat`:
 
 ```bash
-wscat -c ws://localhost:2073/default/SensorData/Temperature
-> {"temperature": 42.5, "unit": "C", "ts": 1700000000}
+wscat -c ws://localhost:2073/default/SensorData
 ```
 
-The host calls the mapper, writes the result to active memory, signals dirty, and dispatches `on_sensor_update` — all within the same cycle.
+Send a text frame:
 
-> Only Rust is supported today. Additional SDK languages are on the [roadmap](/roadmap).
+```json
+{"temperature":42.5,"unit":"C","ts":1700000000}
+```
+
+The runtime processes it as:
+
+```text
+WebSocket frame
+  > SensorData source
+  > parse_temperature mapper
+  > Temperature fact
+  > dirty signal
+  > on_temperature_update
+  > SensorStatus fact
+```
+
+You can send the same payload through the HTTP webhook:
+
+```bash
+curl -X POST \
+  -H 'Content-Type: application/json' \
+  -d '{"temperature":42.5,"unit":"C","ts":1700000000}' \
+  http://localhost:2074/default/SensorData
+```
+
+## Current limitations
+
+The quickstart demonstrates the current alpha runtime, not a lossless production ingestion path:
+
++ HTTP and WebSocket ingress use in-memory source buffers.
++ A successful HTTP response does not yet mean that the fact is durably stored.
++ A source currently has one pending value rather than a durable message queue.
++ Outbound HTTP and WebSocket clients are not implemented.
++ SQLite WAL recovery and OpenTelemetry cascade tracing are being integrated.
+
+Continue with [Sources](/docs/sources) to understand ingress, [Components](/docs/components) to model state, and [Rules](/docs/rules) to understand cascades.

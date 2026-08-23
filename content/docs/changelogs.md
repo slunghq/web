@@ -3,40 +3,39 @@ title: Changelog
 index: 2
 navGroup: Misc
 navGroupIndex: 4
-metaTitle: Changelog
-description: What's new in Slung.
+metaTitle: Slung changelog
+description: Changes to the Slung documentation and runtime.
 ---
 
-## [Unreleased](https://github.com/slunghq/slung/compare/HEAD)
+## Unreleased
 
-### Added
+Slung is in alpha. This page records the current direction without presenting planned capabilities as shipped behavior.
 
-+ Connector abstraction (`Arc<Mutex<DirtyQueue>>`, `Arc<Mutex<LwwRegistry>>`) for thread-safe shared state
-+ WebSocket connector 
-+ Redis, NATS and TCP/UDP connectors skeleton
-+ `ModuleSession` for managing module lifecycle (init, deinit, run)
-+ `ModuleConfig` for configuring sources and runtime parameters
-+ Event loop supervisor pattern with source polling and inference dispatch
-+ `slung_get`, `slung_set`, `slung_now`, `slung_yield` host ABI functions fully implemented
-+ Rust SDK with `#[source]`, `#[component]`, `#[rule]` macros
-+ Multi-cycle cascade proof with convergence guarantee (e2e test)
-+ Capability graph builder with forward/reverse indices
-<!-- -->
-+ HLC (Hybrid Logical Clock) with causal tags for CRDT ordering
-+ LWW (Last-Write-Wins) registry with Bloom filter short-circuit
-+ Dirty queue with MPMC support and optional blocking pop
-+ Generic smart pointer (`Arc`) with atomic reference counting
-+ Mutex with RAII Guard pattern
-+ Columnar cache table for fast column-oriented reads
+### Current runtime
 
-### Removed
++ Wasm modules declare sources, components, and rules through exports.
++ Inbound HTTP webhook ingestion is available on port `2074` by default.
++ Inbound WebSocket gateway ingestion is available on port `2073` by default.
++ Payloads are mapped by Wasm functions into component values.
++ Component values enter an in-memory LWW registry and dirty queue.
++ The inference loop dispatches affected rules and follows transitive writes.
++ The host includes a vendored SQLite build and is preparing the durable storage layer.
 
-+ MPSC ring buffer pipeline - superseded by dirty-driven agenda and capability graph dispatch
-+ TSDB as primary data model - time-series storage replaced by LWW CRDT registry with columnar cache per node
-+ Stream processing execution model - replaced by forward-chaining reactive rule engine
-+ `slung_emit` host ABI function - redundant with `slung_set`
+### In progress
 
-### Changed
++ SQLite WAL-backed fact and pending-work storage
++ Recovery and replay after process failure
++ Deterministic tie-breaking for equal-priority rules
++ OpenTelemetry traces, metrics, and correlated structured events
++ Graph and cascade inspection APIs
++ Connector retries, idempotency, and durable acknowledgments
++ Bounded source queues and backpressure
 
-+ Wasm compute layer reoriented from stream transform functions to self-contained rule modules with declared watch lists
-+ Columnar storage retained but recast as a local read cache rather than the primary persistence layer
+### Not currently shipped
+
++ Outbound WebSocket client connector
++ Outbound HTTP connector
++ Production-ready NATS, Kafka, Postgres, or Redis connectors
++ Authentication and authorization for ingress routes
++ Lossless WebSocket or HTTP delivery
++ Distributed consensus through Raft

@@ -4,48 +4,50 @@ index: 1
 navGroup: Core Concepts
 navGroupIndex: 2
 metaTitle: Sources
-description: How external data enters the engine.
+description: Bring external payloads into Slung.
 ---
 
-A source declares an external data connection and the components it produces. The host opens and manages the actual connection — modules never do I/O directly.
+A source names an input and the components it can produce. The Wasm module declares source descriptors; the host opens the matching ingress route and invokes the declared mappers.
 
-## Declaring a source
+## Current transports
 
-The `#[source]` macro compiles to a descriptor export the host reads at load time. The `builtin` attribute selects the connector.
+The current runtime supports two inbound transports:
 
-```rust [src/main.rs]
+| Transport | Default port | Route | Payloads |
+|---|---:|---|---|
+| WebSocket gateway | `2073` | `/<namespace>/<source>` | Text and binary frames |
+| HTTP webhook | `2074` | `/<namespace>/<source>` | HTTP request body |
+
+The route is source-level. It is not currently component-level, so this is not a supported route:
+
+```text
+/<namespace>/<source>/<component>
+```
+
+The host uses the source's registered mappers to decide which components accept the payload.
+
+## Source declaration
+
+A Rust SDK source declaration looks like this:
+
+```rust
 #[source(builtin = "ws")]
 struct SensorData {
     #[component(map = parse_temperature)]
     temperature: Temperature,
-
-    #[component(map = parse_humidity)]
-    humidity: Humidity,
 }
 ```
 
-The host mints a static `EntityId` for the source, opens the connection, and registers each component field in the capability graph.
+The module exports metadata describing the source, its connector, its components, and each mapper. The host reads this metadata when the module is loaded.
 
-## Connectors
+## Mapping payloads
 
-| Connector | `builtin` value | Notes |
-|-----------|----------------|-------|
-| WebSocket | `ws` | Ingress frames routed by `/<namespace>/<source>/<component>` |
-| NATS | `nats` | Subscribe to a subject |
-| Kafka | `kafka` | Consumer group polling |
-| Redis | `redis` | Pub/Sub channel subscription |
-| Postgres | `pg` | Table polling or LISTEN/NOTIFY |
-| HTTP | `http` | Request/response |
-| TCP | `tcp` | Raw stream |
-| UDP | `udp` | Raw datagrams |
+A mapper translates raw bytes into a serialized component value:
 
-## Mappers
-
-Each component field that carries a `map` attribute causes the SDK to emit a mapper export. The host calls it whenever new data arrives, passing the raw bytes and an output buffer:
-
-```rust [src/main.rs]
+```rust
 fn parse_temperature(raw: &[u8]) -> Result<Temperature> {
     let json: serde_json::Value = serde_json::from_slice(raw)?;
+
     Ok(Temperature {
         value: json["temperature"].as_f64().unwrap_or(0.0) as f32,
         unit: json["unit"].as_str().unwrap_or("C").to_string(),
@@ -54,32 +56,35 @@ fn parse_temperature(raw: &[u8]) -> Result<Temperature> {
 }
 ```
 
-If the mapper returns an error the host discards the frame — no partial writes to active memory.
+A mapper failure is logged and the mapper's output is not written. A payload can be accepted by the transport while every mapper declines it.
 
 ## Data flow
 
-```
-raw bytes arrive on source connection
-  -> host looks up the component mapper
-  -> calls mapper(raw_ptr, raw_len, out_ptr, out_len)
-  -> mapper deserializes raw bytes into the component type
-  -> host writes serialized value to active memory
-  -> signals dirty: (EntityId, ComponentId)
-  -> inference loop wakes, dispatches affected rules
-```
-
-The mapper is the precise boundary between raw source data and the typed facts the engine reasons about. The host never interprets source bytes directly.
-
-## Dynamic entities
-
-Setting `dynamic = true` on a component field tells the host the mapper returns an `EntityKey` alongside the component value. The host mints a distinct `EntityId` per key — so different instances of the same source become separate entities with independent component state and rule invocations.
-
-```rust [src/main.rs]
-#[source(builtin = "ws")]
-struct SensorData {
-    #[component(map = parse_reading, dynamic = true)]
-    reading: Reading,
-}
+```text
+raw payload
+  > route lookup
+  > source buffer
+  > mapper invocation
+  > LWW active memory
+  > dirty entry
+  > inference loop
 ```
 
-When `dynamic` is false (the default) all incoming data for that component writes to the single static `EntityId` minted for the source.
+The host does not interpret application payloads. The mapper is the boundary between transport bytes and typed facts.
+
+## Delivery semantics today
+
+Ingress is currently in-memory and polling-based:
+
++ HTTP request bodies are copied into a source buffer.
++ WebSocket frames are copied into a source buffer.
++ A source currently retains one pending value rather than a durable message log.
++ A later payload can replace an earlier pending payload before polling.
++ There is no transport acknowledgment tied to WAL commit or cascade completion.
++ Retry, deduplication, authentication, and backpressure are not implemented.
+
+Do not use the current webhook or gateway as a lossless queue until these semantics change.
+
+## Planned integration work
+
+The storage and connector layers are being extended with SQLite WAL persistence, durable pending work, retry state, idempotency, and OpenTelemetry instrumentation. Outbound WebSocket and HTTP clients are not part of the current runtime.
