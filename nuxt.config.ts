@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     build: {
       markdown: {
         highlight: {
-          theme: "gruvbox-light-medium",
+          theme: "everforest-dark",
           langs: [
             "rust",
             "zig",
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   fontawesome: {
     icons: {
       regular: ["clone"],
-      solid: ["pen", "check", "rotate-right"],
+      solid: ["pen", "check", "rotate-right", "magnifying-glass"],
     },
   },
   app: {

@@ -72,47 +72,52 @@
                                         }}
                                     </span>
                                 </button>
-                                <div
-                                    v-show="openGroups[group.name] !== false"
-                                    class="flex flex-col"
-                                >
-                                    <nuxt-link
-                                        v-for="item in group.items"
-                                        :key="item.id"
-                                        class="text-start h-9 w-full flex items-center justify-between no-select bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)]"
-                                        :class="{
-                                            'bg-[var(--bg-inset)]!': isActivePath(
-                                                item.url,
-                                            ),
-                                        }"
-                                        :id="
-                                            isActivePath(item.url)
-                                                ? 'navigation-items'
-                                                : undefined
-                                        "
-                                        :to="item.url"
+                                <Transition name="accordion-content">
+                                    <div
+                                        v-show="openGroups[group.name] !== false"
+                                        class="grid overflow-hidden"
                                     >
-                                        <span
-                                            class="uppercase px-6 font-semibold"
-                                            :class="{
-                                                'text-[var(--accent-primary)]': isActivePath(
-                                                    item.url,
-                                                ),
-                                            }"
-                                        >
-                                            {{ item.name }}
-                                        </span>
-                                    </nuxt-link>
-                                </div>
+                                        <div class="min-h-0 overflow-hidden flex flex-col">
+                                            <nuxt-link
+                                                v-for="item in group.items"
+                                                :key="item.id"
+                                                class="text-start h-9 w-full flex items-center justify-between no-select bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)]"
+                                                :class="{
+                                                    'bg-[var(--bg-inset)]!': isActivePath(
+                                                        item.url,
+                                                    ),
+                                                }"
+                                                :id="
+                                                    isActivePath(item.url)
+                                                        ? 'navigation-items'
+                                                        : undefined
+                                                "
+                                                :to="item.url"
+                                            >
+                                                <span
+                                                    class="uppercase px-6 font-semibold"
+                                                    :class="{
+                                                        'text-[var(--accent-primary)]': isActivePath(
+                                                            item.url,
+                                                        ),
+                                                    }"
+                                                >
+                                                    {{ item.name }}
+                                                </span>
+                                            </nuxt-link>
+                                        </div>
+                                    </div>
+                                </Transition>
                             </Motion>
                         </Motion>
                     </div>
                 </Transition>
+                <DocsSearch />
                 <button
                     @click="toggleMenuState"
-                    class="h-[36px] w-[170px] text-center bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)] gap-4 relative flex justify-center items-center"
+                    class="h-7 w-[170px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-inset)] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
-                    :class="{ 'bg-[var(--bg-inset)]!': menuOpen }"
+                    :class="{ 'bg-[var(--accent-primary-inset)]!': menuOpen }"
                 >
                     <svg
                         class="fill-[var(--text-primary)] shrink-0 mr-2"
@@ -318,3 +323,20 @@ const desktopItems = computed(() =>
     groups.value.flatMap((group) => group.items).slice(0, 2),
 );
 </script>
+
+<style scoped>
+.accordion-content-enter-active,
+.accordion-content-leave-active {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition:
+        grid-template-rows 220ms ease,
+        opacity 160ms ease;
+}
+
+.accordion-content-enter-from,
+.accordion-content-leave-to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+}
+</style>

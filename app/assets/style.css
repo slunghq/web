@@ -19,6 +19,7 @@
 :root {
   --bg-primary: #0A120F;
   --bg-elevated: #101A16;
+  --bg-elevated-inset: #212B27;
   --bg-inset: #060B09;
   --text-primary: #F2EFE9;
   --text-secondary: #9BA69F;
