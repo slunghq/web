@@ -1,20 +1,43 @@
 <template>
     <div class="pt-2 my-6 text-sm">
         <div
-            v-if="$props.filename"
+            v-if="props.filename"
             class="px-4 py-0.5 text-[var(--accent-primary)] no-select font-semibold font-mono border border-b-0! border-[var(--border-default)] w-fit"
         >
-            {{ $props.filename }}
+            {{ props.filename }}
         </div>
-        <pre
-            :class="$props.class"
-            class="p-5 pl-2! pt-2 border border-[var(--border-default)] overflow-x-auto"
-        ><slot /></pre>
+        <div class="relative">
+            <button
+                v-if="props.language != 'text'"
+                type="button"
+                class="absolute top-2 right-2 z-1 flex h-6 w-6 items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+                :aria-label="copied ? 'Code copied' : 'Copy code'"
+                :title="copied ? 'Code copied' : 'Copy code'"
+                @click="copyCode"
+            >
+                <font-awesome
+                    v-if="!copied"
+                    :icon="['far', 'clone']"
+                    aria-hidden="true"
+                />
+                <font-awesome
+                    v-else
+                    :icon="['fas', 'check']"
+                    aria-hidden="true"
+                />
+            </button>
+            <pre
+                :class="props.class"
+                class="p-5 pl-2! pt-2! pr-12! border border-[var(--border-default)] overflow-x-auto"
+            ><slot /></pre>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { ref } from "vue";
+
+const props = defineProps({
     code: {
         type: String,
         default: "",
@@ -40,12 +63,26 @@ defineProps({
         default: null,
     },
 });
+
+const copied = ref(false);
+
+async function copyCode() {
+    await navigator.clipboard.writeText(props.code);
+    copied.value = true;
+    window.setTimeout(() => {
+        copied.value = false;
+    }, 2000);
+}
 </script>
 
 <style>
 @import "tailwindcss";
 pre code .line {
     display: block;
+}
+
+pre code:not(:has(.line)) {
+    padding-left: 1em !important;
 }
 
 .no-select {
@@ -80,24 +117,23 @@ pre code .line {
 .language-zsh,
 .language-fish,
 .language-sh,
-.language-shell {
+.language-shell,
+.language-text {
     @apply pb-2!;
     .line::before {
-        content: "~";
-        border-right: 0;
-        width: 2em;
+        display: none;
     }
     .line:hover {
         @apply bg-[var(--bg-inset)];
     }
     .line {
-        padding-left: 2em;
+        padding-left: 1em;
     }
 }
 
 pre code .line *::-moz-selection,
 pre code .line *::selection {
-    background-color: var(--accent-primary) !important;
+    background-color: #275736 !important;
     color: var(--bg-color) !important;
 }
 </style>

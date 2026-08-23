@@ -33,6 +33,7 @@
   --font-display: "Intel", "Lilex", ui-monospace, monospace;
   --font-body: "Lilex", ui-monospace, monospace;
   --font-accent: "IBM Plex Serif", Georgia, serif;
+  --font-mono: "Intel", ui-monospace, monospace;
 }
 
 @layer base {

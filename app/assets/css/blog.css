@@ -92,7 +92,7 @@
   }
 
   code {
-    @apply px-2 py-1 text-sm;
+    @apply px-1 py-1 text-sm font-mono;
   }
 
   pre code {
