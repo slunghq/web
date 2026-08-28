@@ -16,6 +16,17 @@
   src: url("./fonts/Lilex[wght].ttf");
 }
 
+@font-face {
+  font-family: "RedHat";
+  src: url("./fonts/RedHatMono-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "RedHat";
+  src: url("./fonts/RedHatMono-Italic-VariableFont_wght.ttf");
+  font-style: italic;
+}
+
 :root {
   --bg-primary: #0A120F;
   --bg-elevated: #101A16;
@@ -32,7 +43,7 @@
   --border-accent: #C1502E;
   --success: #6B9B7A;
   --font-display: "Intel", "Lilex", ui-monospace, monospace;
-  --font-body: "Lilex", ui-monospace, monospace;
+  --font-body: "RedHat", ui-monospace, monospace;
   --font-accent: "IBM Plex Serif", Georgia, serif;
   --font-mono: "Intel", ui-monospace, monospace;
 }
