@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="trace-panel" aria-label="Slung runtime log">
-            <div class="trace-header"><span class="status-dot"></span> runtime log <span class="trace-live">live</span></div>
+            <div class="trace-header"><span class="status-dot"></span> runtime log <span class="trace-live">debug mode</span></div>
             <div ref="logViewport" class="trace-log">
                 <template v-for="(line, index) in logLines" :key="index">
                     <div v-if="visibleLines > index" class="log-line trace-step is-visible">
