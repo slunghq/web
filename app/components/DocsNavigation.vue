@@ -115,7 +115,7 @@
                 <DocsSearch />
                 <button
                     @click="toggleMenuState"
-                    class="h-7 w-[170px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-inset)] gap-4 relative flex justify-center items-center"
+                    class="h-7 w-[120px] text-center bg-[var(--accent-primary-dim)] hover:bg-[var(--accent-primary-inset)] gap-4 relative flex justify-center items-center"
                     id="navigation-items"
                     :class="{ 'bg-[var(--accent-primary-inset)]!': menuOpen }"
                 >
@@ -147,7 +147,7 @@
                         />
                     </svg>
                     <span class="uppercase text-[var(--text-primary)] font-bold mr-1">
-                        NAVIGATION
+                        MENU
                     </span>
                 </button>
             </div>

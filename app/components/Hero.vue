@@ -4,7 +4,7 @@
             <p class="eyebrow">// incremental execution</p>
             <h1>systems that <em>propagate</em>, not pipelines you wire by hand</h1>
             <p class="hero-subhead">
-                Slung reacts to changing facts instead of running fixed steps.
+                reacts to changing facts instead of running fixed steps.
                 Model your system as entities and components, write rules that
                 depend on them, and let the runtime handle what recomputes - the
                 same principle behind incremental builds, applied to orchestration.
@@ -51,33 +51,24 @@ const logLines = [
     "2026/08/28 00:06:21 slung INFO Registered route: POST /test_ns/api/inventory",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: GADGET-002 now at 30 units",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: WIDGET-001 now at 25 units",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: CRITICAL-003 now at 10 units",
     "EMERGENCY: CRITICAL-003 is critically low at 10 units - initiating emergency reorder",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: GADGET-002 now at 5 units",
     "EMERGENCY: GADGET-002 is critically low at 5 units - initiating emergency reorder",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_inventory declined payload with status 1",
-    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
-    "2026/08/28 00:06:23 default WARN No mappers accepted payload for source WebhookSource",
     "",
     "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/unknown",
-    "2026/08/28 00:06:23 default INFO http webhook route not registered: test_ns/api/unknown",
 ];
 const visibleLines = ref(0);
 const cursorBlinking = ref(true);
@@ -86,7 +77,7 @@ const logViewport = ref<HTMLElement | null>(null);
 const timers: number[] = [];
 
 const logParts = (line: string) => {
-    if (line.startsWith("  ")) return { prefix: "  ", message: line.trimStart() };
+    if (line.startsWith(" ")) return { prefix: "  ", message: line.trimStart() };
     const structured = line.match(/^(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2} \w+ (?:DEBUG|INFO|WARN|ERR)) (.*)$/);
     if (structured) return { prefix: structured[1] + " ", message: structured[2] };
     const raw = line.match(/^(LOW STOCK ALERT: |EMERGENCY: |Order [^:]+: )(.*)/);
