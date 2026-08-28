@@ -16,7 +16,7 @@
         <section class="alpha-notice"><span>[!]</span><p><strong>Slung is alpha software.</strong> The core propagation model works; connectors are actively being hardened. <NuxtLink to="roadmap">Track our roadmap -></NuxtLink></p></section>
 
         <section class="content-section built-for">
-            <div class="section-heading"><p class="eyebrow">built for</p><span class="section-rule"></span></div>
+            <div class="section-heading"><p class="eyebrow">a new paradigm</p><span class="section-rule"></span></div>
             <div class="feature-grid">
                 <article v-for="feature in features" :key="feature.title" class="feature-card" id="navigation-top-left-bottom-right">
                     <h3>{{ feature.title }}</h3><p>{{ feature.description }}</p>
@@ -35,9 +35,9 @@
 <script setup lang="ts">
 const features = [
     { title: "No wiring required", description: "Define what a rule reads and writes. Slung derives the dependency graph - you don't maintain one." },
-    { title: "Propagation, not polling", description: "A fact change triggers only the rules that depend on it, immediately. Not a scheduled sweep." },
-    { title: "Compiles to WebAssembly", description: "Write rules in Rust, Go, or anything that targets WASM. The engine doesn't care what language your logic is in." },
-    { title: "Single binary, edge-ready", description: "No broker, no scheduler service, no separate state store to run alongside it." },
+    { title: "Durable", description: "The execution state is persisted to ensure system continuity." },
+    { title: "Language agnostic", description: "Write modules in Rust, Go, or anything that targets WASM. The engine doesn't care what language your logic is in." },
+    { title: "Lightweight", description: "No broker, no scheduler service, no separate database to run alongside it." },
 ];
 
 useSeoMeta({
