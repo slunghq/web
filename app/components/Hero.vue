@@ -40,22 +40,44 @@
 
 <script setup lang="ts">
 const logLines = [
-    "info: HTTP webhook listener on http://0.0.0.0:2074",
-    "info: WebSocket gateway listening on http://0.0.0.0:2073",
+    "2026/08/28 00:06:17 slung INFO Starting deployment host",
+    "  node id: node-1",
+    "2026/08/28 00:06:17 slung INFO deployment server listening on http://0.0.0.0:2072",
+    "2026/08/28 00:06:17 slung INFO WebSocket gateway listening on http://0.0.0.0:2073",
+    "2026/08/28 00:06:17 slung INFO HTTP webhook listening on http://0.0.0.0:2074",
     "",
-    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:21 dusty DEBUG Received: POST /deploy",
+    "2026/08/28 00:06:21 slung INFO First deployment: webhook.wasm (namespace: test_ns)",
+    "2026/08/28 00:06:21 slung INFO Registered route: POST /test_ns/api/inventory",
+    "",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
+    "",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
+    "LOW STOCK ALERT: GADGET-002 now at 30 units",
+    "",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: WIDGET-001 now at 25 units",
     "",
-    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: CRITICAL-003 now at 10 units",
-    "EMERGENCY: CRITICAL-003 is critically low at 10 units — initiating emergency reorder",
+    "EMERGENCY: CRITICAL-003 is critically low at 10 units - initiating emergency reorder",
     "",
-    "debug(dusty): Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
     "LOW STOCK ALERT: GADGET-002 now at 5 units",
-    "EMERGENCY: GADGET-002 is critically low at 5 units — initiating emergency reorder",
+    "EMERGENCY: GADGET-002 is critically low at 5 units - initiating emergency reorder",
     "",
-    "debug(dusty): Received: POST /test_ns/api/unknown",
-    "info: http webhook route not registered: test_ns/api/unknown",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/inventory",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_inventory declined payload with status 1",
+    "2026/08/28 00:06:23 default DEBUG Mapper __slung_map_WebhookSource_order declined payload with status 1",
+    "2026/08/28 00:06:23 default WARN No mappers accepted payload for source WebhookSource",
+    "",
+    "2026/08/28 00:06:23 dusty DEBUG Received: POST /test_ns/api/unknown",
+    "2026/08/28 00:06:23 default INFO http webhook route not registered: test_ns/api/unknown",
 ];
 const visibleLines = ref(0);
 const cursorBlinking = ref(true);
@@ -64,15 +86,21 @@ const logViewport = ref<HTMLElement | null>(null);
 const timers: number[] = [];
 
 const logParts = (line: string) => {
-    const match = line.match(/^(info: |debug(?:\([^)]*\))?: |LOW STOCK ALERT: |EMERGENCY: )\s?(.*)$/);
-    return match ? { prefix: match[1] || "", message: match[2] || "" } : null;
+    if (line.startsWith("  ")) return { prefix: "  ", message: line.trimStart() };
+    const structured = line.match(/^(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2} \w+ (?:DEBUG|INFO|WARN|ERR)) (.*)$/);
+    if (structured) return { prefix: structured[1] + " ", message: structured[2] };
+    const raw = line.match(/^(LOW STOCK ALERT: |EMERGENCY: |Order [^:]+: )(.*)/);
+    if (raw) return { prefix: raw[1], message: raw[2] };
+    return null;
 };
 
 const logClass = (prefix: string) => {
-    if (prefix.startsWith("info") || prefix.startsWith("debug")) return "log-muted";
-    if (prefix === "LOW STOCK ALERT: ") return "log-warning";
-    if (prefix === "EMERGENCY: ") return "log-emergency";
-    return "";
+    if (prefix.includes("WARN ")) return "log-warning";
+    if (prefix.includes(" ERR ")) return "log-emergency";
+    if (/\d{4}\/\d{2}\/\d{2}/.test(prefix)) return "log-muted";
+    if (prefix.startsWith("LOW STOCK ALERT")) return "log-warning";
+    if (prefix.startsWith("EMERGENCY")) return "log-emergency";
+    return "log-muted";
 };
 
 const handleShortcut = (event: KeyboardEvent) => {
