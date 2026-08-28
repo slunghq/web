@@ -7,6 +7,8 @@ tags: [engineering, announcement, runtime]
 authors: [Ewan]
 ---
 
+<Notice variant="info">This post describes an earlier direction we took with Slung (compute over time-series data streams). This project has since pivoted to an incremental compute engine. See our [docs](/docs) for more information.</Notice>
+
 As an engineer, if you've ever worked with say IoT data and were trying to do work with your live data stream while trying to use any historical data, you probably designed a pipeline that looked like this:
 
 + Kafka for ingestion
@@ -39,8 +41,6 @@ All in a single binary that you can deploy on your edge infrastructure, today.
 Edge computing is eating the cloud. IoT devices are getting smarter and now process more data that should be put to work. Latency matters more than ever. Streaming infrastructure is still designed for datacenter-scale distributed systems.
 
 Slung aims to make analytical stream processing lightweight, single-node, edge-native with historical data built-in, just next to your data producers.
-
-> Note: this is our first alpha so expect bugs (report them [here](https://github.com/slunghq/slung/issues/new)). I also do not suggest migrating your data to Slung without a back-up to a data lake.
 
 As part of the runtime, I've also shipped a basic [Rust workflow SDK](https://docs.rs/slung) alongside a simple [Typescript client SDK](https://github.com/slunghq/slung/tree/dev/sdks/client/typescript).
 
