@@ -30,7 +30,7 @@
             <div class="trace-footer">
                 <div>
                 Check out the example:
-                <nuxt-link href="https://github.com/slunghq/slung/tree/dev/sdks/pipeline/rust/examples/webhook" target="_blank" rel="noopener noreferrer" class="link"><span class="text-(--text-primary)">examples/webhook</span></nuxt-link>.
+                <nuxt-link href="https://github.com/slunghq/slung/tree/dev/sdks/pipeline/rust/examples/webhook" target="_blank" rel="noopener noreferrer" class="link"><span>examples/webhook</span></nuxt-link>.
                 </div>
                 <button id="navigation-items" type="button" @click="replayLog"><font-awesome :icon="['fas', 'rotate-right']" aria-hidden="true" /></button>
             </div>

@@ -73,6 +73,7 @@
                                     :class="{
                                         'link-vertical': i.cta,
                                     }"
+
                                     ><span
                                         class="uppercase px-6 font-semibold"
                                         >{{ i.name }}</span

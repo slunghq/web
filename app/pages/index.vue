@@ -13,7 +13,7 @@
             <p class="section-note">No DAG to maintain. No explicit "then call X" wiring. The dependency graph is implicit in what each rule reads and writes - only what's actually affected by a change recomputes.</p>
         </section>
 
-        <section class="alpha-notice"><span>[!]</span><p><strong>Slung is alpha software.</strong> The core propagation model works; connectors are actively being hardened. <NuxtLink to="roadmap">Track our roadmap -></NuxtLink></p></section>
+        <Notice variant="warning m-0!"><p><span class="font-bold">Slung is alpha software.</span> The core propagation model works; connectors are actively being hardened. <NuxtLink class="link" to="roadmap">Track our roadmap -></NuxtLink></p></Notice>
 
         <section class="content-section built-for">
             <div class="section-heading"><p class="eyebrow">a new paradigm</p><span class="section-rule"></span></div>
@@ -58,10 +58,6 @@ useSeoMeta({
 .section-rule { height: 1px; background: var(--border-default); flex: 1; }
 .section-copy { color: var(--text-secondary); font-size: 1rem; line-height: 1.75; max-width: 49rem; }
 .section-note { color: var(--text-primary); font-size: .875rem; line-height: 1.7; border-left: 2px solid var(--accent-primary); padding-left: 1rem; max-width: 49rem; }
-.alpha-notice { border: 1px dashed var(--accent-primary); background: var(--bg-elevated); display: flex; gap: 1rem; padding: 1rem; color: var(--text-secondary); font-size: .8rem; line-height: 1.6; }
-.alpha-notice > span { color: var(--accent-primary); font-family: var(--font-display); }
-.alpha-notice strong { color: var(--text-primary); font-weight: 500; }
-.alpha-notice a { color: var(--accent-primary); text-decoration: none; }
 .feature-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 .feature-card { background: var(--bg-elevated); padding: 1.25rem; min-height: 9rem; }
 .feature-card h3 { color: var(--text-primary); font-family: var(--font-display); font-size: .95rem; margin-bottom: .75rem; }

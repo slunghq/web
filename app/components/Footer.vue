@@ -7,12 +7,12 @@
         >
             <div class="w-full flex justify-between items-start">
                 <ul class="uppercase font-semibold">
-                    <li class="link w-fit">
+                    <li class="link-light w-fit">
                         <nuxt-link to="https://github.com/slunghq/slung"
                             ><span>gitHub</span></nuxt-link
                         >
                     </li>
-                    <li class="link w-fit">
+                    <li class="link-light w-fit">
                         <nuxt-link to="https://x.com/slunghq"
                             ><span
                                 >x
@@ -20,17 +20,17 @@
                             ></nuxt-link
                         >
                     </li>
-                    <li class="link w-fit">
+                    <li class="link-light w-fit">
                         <nuxt-link to="/docs">
                             <span>docs</span>
                         </nuxt-link>
                     </li>
-                    <li class="link w-fit">
+                    <li class="link-light w-fit">
                         <nuxt-link to="/blog">
                             <span>blog</span>
                         </nuxt-link>
                     </li>
-                    <li class="link w-fit">
+                    <li class="link-light w-fit">
                         <nuxt-link to="/roadmap">
                             <span>roadmap</span>
                         </nuxt-link>

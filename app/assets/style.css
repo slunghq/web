@@ -51,6 +51,10 @@
 @layer base {
   html { background: var(--bg-primary); }
 
+  a {
+    font-family: "Lilex";
+  }
+
   body {
     background: var(--bg-primary);
     color: var(--text-primary);
@@ -80,10 +84,76 @@
 
   .no-select { user-select: none; -webkit-user-drag: none; }
 
-  .link { position: relative; display: inline-block; isolation: isolate; text-decoration: none; color: var(--text-primary); }
-  .link::before { content: ""; position: absolute; inset: 0; width: 0; background: var(--accent-primary); transition: width .25s ease; z-index: 0; }
-  .link:hover::before { width: 100%; }
-  .link span { position: relative; z-index: 1; }
+  .link,
+  .link-light {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+    color: var(--accent-primary);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0 !important;
+  }
+
+  .link::before,
+  .link::after,
+  .link-light::before,
+  .link-light::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transition: width .25s ease;
+    z-index: 0;
+  }
+
+  .link::before,
+  .link-light::before {
+    background-color: var(--border-default);
+    width: 100%;
+  }
+
+  .link::after,
+  .link-light::after {
+    width: 0;
+    background-color: var(--accent-primary);
+  }
+
+  .link:hover::after,
+  .link-light:hover::after {
+    width: 100%;
+  }
+
+  .link span,
+  .link-light span {
+    position: relative;
+    z-index: 1;
+    color: var(--accent-primary);
+  }
+
+  .link:hover span,
+  .link-light:hover span {
+    background-position: 0 0;
+  }
+
+  .link-light {
+    color: var(--text-primary);
+  }
+
+  .link-light::after {
+    background-color: var(--text-primary);
+  }
+
+  .link-light span {
+    color: var(--text-primary);
+  }
+
+  .link-vertical {
+    position: relative;
+    overflow: hidden;
+  }
 
   .link-vertical { position: relative; overflow: hidden; text-decoration: none; }
   .link-vertical::before { content: ""; position: absolute; inset: auto 0 0; height: 0; background: var(--accent-primary); transition: height .25s ease; z-index: 0; }
