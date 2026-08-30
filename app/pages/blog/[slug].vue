@@ -80,7 +80,7 @@ useSeoMeta({
                         <span>Share:</span>
                         <nuxt-link
                             :to="`https://x.com/intent/post?url=https://slung.tech${encodeURIComponent($route.fullPath)}`"
-                            class="inline-flex items-center link px-1 h-full"
+                            class="inline-flex items-center link px-1 h-full mx-2"
                         >
                             <span>X <span class="line-through">Twitter</span></span>
                         </nuxt-link>
