@@ -87,4 +87,4 @@ Do not use the current webhook or gateway as a lossless queue until these semant
 
 ## Planned integration work
 
-The storage and connector layers are being extended with SQLite WAL persistence, durable pending work, retry state, idempotency, and OpenTelemetry instrumentation. Outbound WebSocket and HTTP clients are not part of the current runtime.
+The storage and connector layers are being extended with SQLite WAL persistence, durable pending work, retry state, idempotency, and OpenTelemetry instrumentation. Outbound HTTP is available to pipeline modules; outbound WebSocket clients are not part of the current runtime.

@@ -32,9 +32,9 @@ A rule can write another fact. That write becomes another dirty entry and can co
 
 ## Current status
 
-Slung is alpha software. The current host provides inbound HTTP webhook and WebSocket gateway ingestion, a Wasm module loader, active in-memory LWW state, and a dirty-driven inference loop.
+Slung is alpha software. The current host provides inbound HTTP webhook and WebSocket gateway ingestion, outbound HTTP for pipeline modules, a Wasm module loader, active in-memory LWW state, and a dirty-driven inference loop.
 
-SQLite WAL durability, OpenTelemetry instrumentation, outbound connectors, authentication, and production delivery guarantees are being built around this core. Do not treat an HTTP `200` or a WebSocket frame receipt as a durable acknowledgment yet.
+SQLite WAL durability, OpenTelemetry instrumentation, outbound WebSocket support, authentication, and production delivery guarantees are being built around this core. Do not treat an HTTP `200` or a WebSocket frame receipt as a durable acknowledgment yet.
 
 [Use cases](/docs/usecases) — decide whether the model fits your system.
 

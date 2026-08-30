@@ -76,9 +76,25 @@ The runtime currently has basic log output. OpenTelemetry traces, metrics, and c
 
 </Accordion>
 
-<Accordion title="Can rules make HTTP or WebSocket requests?">
+<Accordion title="Can rules make HTTP requests?">
 
-Not currently. Inbound HTTP and WebSocket gateway support exists; outbound client connectors are not implemented.
+Yes. Rust pipeline modules can use the outbound HTTP host API:
+
+```rust
+let response = slung::host::http::get(
+    "http://service.internal/status",
+    &[("X-Request-ID", "order-123")],
+)?;
+
+if response.status == 200 {
+    // response.body contains the response bytes.
+    // response.headers contains (name, value) pairs.
+}
+```
+
+`http::get`, `http::post`, `http::put`, and `http::delete` accept request headers. Responses expose the actual HTTP status code, response headers, and body. A transport failure returns an error; an HTTP error response such as `404` or `500` is still returned as a response.
+
+The connector does not yet provide durable delivery, automatic retries, or idempotency guarantees. WebSocket client requests are not implemented.
 
 </Accordion>
 

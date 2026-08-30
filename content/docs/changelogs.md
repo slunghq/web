@@ -19,7 +19,8 @@ Slung is in alpha. This page records the current direction without presenting pl
 + Payloads are mapped by Wasm functions into component values.
 + Component values enter an in-memory LWW registry and dirty queue.
 + The inference loop dispatches affected rules and follows transitive writes.
-+ The host includes a vendored SQLite build and is preparing the durable storage layer.
++ Outbound HTTP requests are available to Rust pipeline modules with request and response headers.
++ The host includes a vendored SQLite build; durable storage is not yet integrated into the runtime.
 
 ### In progress
 
@@ -34,7 +35,7 @@ Slung is in alpha. This page records the current direction without presenting pl
 ### Not currently shipped
 
 + Outbound WebSocket client connector
-+ Outbound HTTP connector
+
 + Production-ready NATS, Kafka, Postgres, or Redis connectors
 + Authentication and authorization for ingress routes
 + Lossless WebSocket or HTTP delivery

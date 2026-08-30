@@ -42,7 +42,7 @@ Today, the practical ingress paths are:
 + WebSocket text frames
 + WebSocket binary frames
 
-The current runtime does not yet provide production queue semantics, outbound HTTP/WebSocket clients, or fully implemented NATS, Kafka, Postgres, and Redis connectors.
+The current runtime does not yet provide production queue semantics, outbound WebSocket clients, or fully implemented NATS, Kafka, Postgres, and Redis connectors. Outbound HTTP is available to pipeline modules, but does not yet provide durable delivery, automatic retries, or idempotency guarantees.
 
 ## Poor fits today
 
