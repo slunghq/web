@@ -58,7 +58,7 @@
                                 <button
                                     class="w-full px-4 py-2 text-xs uppercase tracking-wide text-[var(--accent-secondary)] bg-[var(--bg-elevated)] text-start font-semibold cursor-pointer flex items-center justify-between"
                                     :class="{
-                                        'text-[var(--accent-primary)] bg-[var(--bg-inset)]':
+                                        'text-[var(--accent-primary)]!':
                                             group.name === activeGroupName,
                                     }"
                                     @click="toggleGroup(group.name)"
@@ -83,7 +83,7 @@
                                                 :key="item.id"
                                                 class="text-start h-9 w-full flex items-center justify-between no-select bg-[var(--bg-elevated)] hover:bg-[var(--bg-inset)]"
                                                 :class="{
-                                                    'bg-[var(--bg-inset)]!': isActivePath(
+                                                    'bg-[#0f1814]!': isActivePath(
                                                         item.url,
                                                     ),
                                                 }"
