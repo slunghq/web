@@ -13,18 +13,19 @@ You need:
 
 + [Rust](https://www.rust-lang.org/tools/install)
 + The `wasm32-wasip1` Rust target
-+ [Zig](https://ziglang.org/) if building the Slung host from source
++ [Zig](https://ziglang.org/) only if building the Slung host from source
 + A WebSocket client such as [`wscat`](https://github.com/websockets/wscat)
 
-## 1. Build the host
+## 1. Install the host
 
-From the Slung repository:
+Download the latest release binary from the [GitHub Releases page](https://github.com/slunghq/slung/releases), place it in the project directory, and make it executable.
+
+You can also build the host from source instead:
 
 ```bash
-zig build
+zig build --release=fast
+cp zig-out/bin/slung .
 ```
-
-This produces the host binary at `zig-out/bin/slung`.
 
 ## 2. Create a module
 
@@ -250,4 +251,4 @@ The quickstart demonstrates the current alpha runtime, not a lossless production
 + Outbound HTTP is available to pipeline modules; native idempotency keys and outbound WebSocket clients are not implemented.
 + OpenTelemetry cascade tracing, authentication, and production delivery guarantees remain in progress.
 
-Continue with [Sources](/docs/sources) to understand ingress, [Components](/docs/components) to model state, and [Rules](/docs/rules) to understand cascades.
+Continue with [Deployment and configuration](/docs/deployment) to configure the host, [Sources](/docs/sources) to understand ingress, [Wasm ABI](/docs/abi) for host integration, [Components](/docs/components) to model state, and [Rules](/docs/rules) to understand cascades.

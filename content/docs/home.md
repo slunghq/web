@@ -20,6 +20,10 @@ Slung loads a self-describing Wasm module, maps incoming payloads into facts, an
 
 [Quickstart](/docs/quickstart) — run the example module and send an event.
 
+[Deployment and configuration](/docs/deployment) — configure dev, run, storage, and durability.
+
+[Wasm ABI](/docs/abi) — understand host functions, buffers, headers, and status codes.
+
 [Sources](/docs/sources) — understand HTTP and WebSocket ingestion.
 
 [Components](/docs/components) — model typed facts and active state.
