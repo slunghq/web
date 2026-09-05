@@ -101,4 +101,4 @@ Rules do not directly access transport sockets or the host's internal state.
 
 ## Errors
 
-A mapper or rule error is reported by the host and does not constitute a durable retry contract yet. Retry policy, failure visibility, and durable pending work are part of the storage, connector, and observability work in progress.
+A mapper or rule error is reported by the host and does not yet constitute a durable retry contract. The WAL preserves source checkpoints and unfinished cascade work, but native idempotency and connector retry policy are still in progress.

@@ -78,13 +78,13 @@ Ingress is currently in-memory and polling-based:
 
 + HTTP request bodies are copied into a source buffer.
 + WebSocket frames are copied into a source buffer.
-+ A source currently retains one pending value rather than a durable message log.
-+ A later payload can replace an earlier pending payload before polling.
-+ There is no transport acknowledgment tied to WAL commit or cascade completion.
-+ Retry, deduplication, authentication, and backpressure are not implemented.
++ Source checkpoints are written to the node-local WAL before their cascade is acknowledged internally.
++ Eventual mode may lose records still queued when the process crashes; strict mode waits for the WAL commit.
++ Transport acknowledgment is not yet universally tied to WAL commit or cascade completion.
++ Retry, deduplication, and authentication are not implemented; bounded WAL backpressure is enabled.
 
 Do not use the current webhook or gateway as a lossless queue until these semantics change.
 
 ## Planned integration work
 
-The storage and connector layers are being extended with SQLite WAL persistence, durable pending work, retry state, idempotency, and OpenTelemetry instrumentation. Outbound HTTP is available to pipeline modules; outbound WebSocket clients are not part of the current runtime.
+The remaining reliability work includes native idempotency, connector retries, transport acknowledgments, authentication, and OpenTelemetry instrumentation. Outbound HTTP is available to pipeline modules; outbound WebSocket clients are not part of the current runtime.

@@ -244,10 +244,10 @@ curl -X POST \
 
 The quickstart demonstrates the current alpha runtime, not a lossless production ingestion path:
 
-+ HTTP and WebSocket ingress use in-memory source buffers.
-+ A successful HTTP response does not yet mean that the fact is durably stored.
-+ A source currently has one pending value rather than a durable message queue.
-+ Outbound HTTP is available to pipeline modules; outbound WebSocket clients are not implemented.
-+ SQLite WAL recovery and OpenTelemetry cascade tracing are being integrated.
++ Source and cascade checkpoints are persisted through the node-local append-only WAL.
++ Eventual durability can lose records still queued when the process crashes; strict mode waits for the WAL commit.
++ WAL batching and backpressure are enabled, but transport delivery is not yet a durable message-queue contract.
++ Outbound HTTP is available to pipeline modules; native idempotency keys and outbound WebSocket clients are not implemented.
++ OpenTelemetry cascade tracing, authentication, and production delivery guarantees remain in progress.
 
 Continue with [Sources](/docs/sources) to understand ingress, [Components](/docs/components) to model state, and [Rules](/docs/rules) to understand cascades.

@@ -40,21 +40,29 @@ The current host supports:
 
 <Accordion title="Are events durable?">
 
-Not yet. The current HTTP and WebSocket ingress path uses in-memory source buffers and an in-memory dirty queue. A process crash can lose buffered events and in-flight inference work.
+Node-local fact and pending-work durability is now provided by an append-only WAL. Source checkpoints and completed cascade checkpoints are queued for persistence; the runtime executes cascades in memory.
 
-SQLite WAL is the planned node-local durability layer. Until it is integrated into the write and pending-work path, a transport response is not a durability acknowledgment.
+Eventual mode returns after enqueueing, so a crash can lose records still waiting in the WAL queue. Strict mode waits for the WAL commit and `fsync`. A transport response is not automatically a durability acknowledgment.
+
+### Eventual vs. strict WAL durability
+
+**Eventual durability** prioritizes throughput and latency. The runtime updates active memory and queues the WAL record, then continues without waiting for disk. The WAL writer batches queued records and commits them in the background. A process or machine failure can lose records that have not yet been committed, and a sustained producer faster than the WAL can drain will encounter backpressure.
+
+**Strict durability** prioritizes recovery guarantees. The operation does not complete until its WAL record has been written and synced to disk. Once it succeeds, the checkpoint can be recovered after a process restart, but each strict operation pays storage latency and can reduce throughput.
+
+Both modes can retry a completed cascade after a crash. Neither mode makes external effects such as HTTP exactly-once; those operations need idempotency keys.
 
 </Accordion>
 
 <Accordion title="What does an HTTP 200 mean?">
 
-Currently it means that a non-empty request body was received for a registered route and copied into the in-memory source buffer. It does not mean that mapping, fact storage, WAL commit, or rule execution succeeded.
+Currently it means that the request was accepted by the registered route. It does not by itself mean that mapping, WAL commit, or rule execution succeeded. Use strict durability when the caller must wait for the source checkpoint.
 
 </Accordion>
 
 <Accordion title="Are WebSocket messages lossless?">
 
-No. The current implementation has a single pending source value rather than a durable per-connection message queue. Do not use it for lossless delivery yet.
+No. The transport layer is not a durable per-connection message queue, and delivery is not lossless. The WAL protects accepted runtime checkpoints, but transport buffering and acknowledgment semantics are still alpha.
 
 </Accordion>
 
@@ -94,7 +102,7 @@ if response.status == 200 {
 
 `http::get`, `http::post`, `http::put`, and `http::delete` accept request headers. Responses expose the actual HTTP status code, response headers, and body. A transport failure returns an error; an HTTP error response such as `404` or `500` is still returned as a response.
 
-The connector does not yet provide durable delivery, automatic retries, or idempotency guarantees. WebSocket client requests are not implemented.
+The connector does not yet provide automatic retries or native idempotency guarantees. Outbound requests may be repeated after recovery; use an application idempotency key. WebSocket client requests are not implemented.
 
 </Accordion>
 
@@ -106,7 +114,7 @@ The runtime consumes Wasm modules. The Rust SDK is the current supported SDK. Ot
 
 <Accordion title="Does Slung replace a database?">
 
-No. Active memory is the runtime's working fact state. SQLite is being introduced for node-local durability. Distributed replication and conflict resolution remain separate concerns from local crash recovery.
+No. Active memory is the runtime's working fact state, restored from the node-local append-only WAL after a restart. SQLite is retained for module-owned `slung_store_*` data. Distributed replication and conflict resolution remain separate concerns from local crash recovery.
 
 </Accordion>
 

@@ -91,10 +91,10 @@ The current host uses an in-memory last-write-wins registry. Each entry contains
 
 LWW comparison gives competing writes a total timestamp order. It does not by itself provide durable storage or distributed consensus.
 
-SQLite WAL storage is being added as the node-local durability layer. Until that work is complete, active memory should be treated as process-local state.
+The node-local durability layer is an append-only WAL. Source inputs and completed cascade checkpoints are recorded there and replayed into active memory after a restart. Eventual mode may lose records still queued at the time of a crash; strict mode waits for the WAL commit.
 
 ## Fact changes
 
 A component is not dirty merely because a rule reads it. It becomes dirty when an accepted source or rule write signals it. The capability graph maps that dirty `(entity, component)` pair to candidate rules.
 
-The runtime does not yet promise transactional rule side effects. Rules that interact with external systems should use idempotency keys and an outbox once those facilities are available.
+Rule writes are accumulated during an in-memory cascade and recorded at its checkpoint. External side effects are at-least-once: rules that interact with external systems should use stable idempotency keys. Native idempotency keys are not yet provided by the runtime.

@@ -20,17 +20,18 @@ Slung is in alpha. This page records the current direction without presenting pl
 + Component values enter an in-memory LWW registry and dirty queue.
 + The inference loop dispatches affected rules and follows transitive writes.
 + Outbound HTTP requests are available to Rust pipeline modules with request and response headers.
-+ The host includes a vendored SQLite build; durable storage is not yet integrated into the runtime.
++ Node-local fact and pending-work durability uses a custom append-only WAL with eventual/strict modes, recovery, batching, and backpressure.
++ SQLite remains available for module-owned `slung_store_*` data.
 
 ### In progress
 
-+ SQLite WAL-backed fact and pending-work storage
-+ Recovery and replay after process failure
++ Native idempotency keys for source events, cascades, and outbound HTTP
++ Crash-injection coverage for WAL recovery and failure paths
 + Deterministic tie-breaking for equal-priority rules
 + OpenTelemetry traces, metrics, and correlated structured events
 + Graph and cascade inspection APIs
-+ Connector retries, idempotency, and durable acknowledgments
-+ Bounded source queues and backpressure
++ Connector retries and durable transport acknowledgments
++ OpenTelemetry traces, metrics, and correlated structured events
 
 ### Not currently shipped
 
