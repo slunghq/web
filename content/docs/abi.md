@@ -43,6 +43,28 @@ slung_yield() -> status
 
 The Rust SDK normally hides these raw calls behind `RuleContext::get`, `RuleContext::set`, `RuleContext::now`, and `RuleContext::yield_now`.
 
+## Module storage
+
+Module-owned persistent storage is exposed through:
+
+```text
+slung_store_get(key_ptr, key_len, value_ptr, value_len) -> status
+slung_store_set(key_ptr, key_len, value_ptr, value_len) -> status
+slung_store_delete(key_ptr, key_len) -> status
+```
+
+Keys and values are opaque bytes. Storage is scoped by the runtime namespace and loaded module name. A successful `slung_store_get` writes a host-allocated value buffer to the guest; release it with `slung_dealloc`.
+
+Status meanings:
+
++ `0`: success; for `get`, a value was found; for `delete`, a value was removed.
++ `1`: missing key for `get` or `delete`, or invalid guest memory.
++ `2`: storage is unavailable or the operation failed.
+
+The Rust SDK exposes these calls as `slung::host::store::{get, set, delete}`. `get` returns `Option<Vec<u8>>`; `delete` returns whether a value existed.
+
+SQLite backs this API, while the fact and pending-work durability layer uses the separate node-local WAL.
+
 ## Outbound HTTP
 
 Outbound HTTP functions are imported from `env`:
